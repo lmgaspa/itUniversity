@@ -12,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final UserRepository repository;
@@ -49,30 +51,41 @@ public class AuthController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/update")
-    public ResponseEntity update(@RequestBody UpdateUserDTO body) {
-        User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
+    @PutMapping("/update/{id}")
+    public ResponseEntity update(@PathVariable UUID id, @RequestBody UpdateUserDTO body) {
+        User user = this.repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
         user.setName(body.name());
         user.setPassword(passwordEncoder.encode(body.password()));
+        user.setEmail(body.email());
         this.repository.save(user);
 
         return ResponseEntity.ok(new ResponseDTO(user.getName(), "User updated successfully"));
     }
 
-    @PatchMapping("/update-name")
-    public ResponseEntity updateName(@RequestBody UpdateUserDTO body) {
-        User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
+    @PatchMapping("/update-name/{id}")
+    public ResponseEntity updateName(@PathVariable UUID id, @RequestBody Map<String, String> body) {
+        User user = this.repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.setName(body.name());
+        String newName = body.get("name");
+        if (newName == null || newName.isEmpty()) {
+            return ResponseEntity.badRequest().body("New name must be provided");
+        }
+
+        user.setName(newName);
         this.repository.save(user);
 
         return ResponseEntity.ok(new ResponseDTO(user.getName(), "User name updated successfully"));
     }
 
-    @PatchMapping("/update-email")
-    public ResponseEntity updateEmail(@RequestParam String currentEmail, @RequestParam String newEmail) {
-        User user = this.repository.findByEmail(currentEmail).orElseThrow(() -> new RuntimeException("User not found"));
+    @PatchMapping("/update-email/{id}")
+    public ResponseEntity updateEmail(@PathVariable UUID id, @RequestBody Map<String, String> body) {
+        User user = this.repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        String newEmail = body.get("email");
+        if (newEmail == null || newEmail.isEmpty()) {
+            return ResponseEntity.badRequest().body("New email must be provided");
+        }
 
         user.setEmail(newEmail);
         this.repository.save(user);
@@ -80,11 +93,26 @@ public class AuthController {
         return ResponseEntity.ok(new ResponseDTO(user.getName(), "User email updated successfully"));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity delete(@RequestParam String email) {
-        User user = this.repository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-        this.repository.delete(user);
+    @PatchMapping("/update-password/{id}")
+    public ResponseEntity updatePassword(@PathVariable UUID id, @RequestBody Map<String, String> body) {
+        User user = this.repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
+        String newPassword = body.get("password");
+        if (newPassword == null || newPassword.isEmpty()) {
+            return ResponseEntity.badRequest().body("New password must be provided");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        this.repository.save(user);
+
+        return ResponseEntity.ok(new ResponseDTO(user.getName(), "User password updated successfully"));
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable UUID id) {
+        User user = this.repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        this.repository.delete(user);
         return ResponseEntity.ok("User deleted successfully");
     }
 }

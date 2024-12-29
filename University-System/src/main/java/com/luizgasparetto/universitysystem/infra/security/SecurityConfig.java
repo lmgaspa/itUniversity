@@ -31,21 +31,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Configuração de CORS
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // Desabilitar CSRF (não necessário para APIs RESTful)
                 .csrf(csrf -> csrf.disable())
-                // Configuração de autenticação stateless
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // Configuração de autorização
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/user/getallusers").permitAll()
+                        .requestMatchers(HttpMethod.POST, "api/v1/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "api/v1/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "api/v1/auth/update").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "api/v1/auth/update-email/**").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "api/v1/auth/update-name/**").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "api/v1/auth/update-password/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "api/v1/auth/update/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "api/v1/auth/delete/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1/user/getallusers").permitAll()
                         .anyRequest().authenticated()
                 )
-                // Adicionar filtro customizado antes do filtro padrão de autenticação
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
