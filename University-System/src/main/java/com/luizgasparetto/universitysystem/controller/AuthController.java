@@ -5,14 +5,12 @@ import com.luizgasparetto.universitysystem.domain.user.User;
 import com.luizgasparetto.universitysystem.dto.LoginRequestDTO;
 import com.luizgasparetto.universitysystem.dto.RegisterRequestDTO;
 import com.luizgasparetto.universitysystem.dto.ResponseDTO;
+import com.luizgasparetto.universitysystem.dto.UpdateUserDTO;
 import lombok.RequiredArgsConstructor;
 import com.luizgasparetto.universitysystem.infra.security.TokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -49,5 +47,44 @@ public class AuthController {
             return ResponseEntity.ok(new ResponseDTO(newUser.getName(), token));
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity update(@RequestBody UpdateUserDTO body) {
+        User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setName(body.name());
+        user.setPassword(passwordEncoder.encode(body.password()));
+        this.repository.save(user);
+
+        return ResponseEntity.ok(new ResponseDTO(user.getName(), "User updated successfully"));
+    }
+
+    @PatchMapping("/update-name")
+    public ResponseEntity updateName(@RequestBody UpdateUserDTO body) {
+        User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setName(body.name());
+        this.repository.save(user);
+
+        return ResponseEntity.ok(new ResponseDTO(user.getName(), "User name updated successfully"));
+    }
+
+    @PatchMapping("/update-email")
+    public ResponseEntity updateEmail(@RequestParam String currentEmail, @RequestParam String newEmail) {
+        User user = this.repository.findByEmail(currentEmail).orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setEmail(newEmail);
+        this.repository.save(user);
+
+        return ResponseEntity.ok(new ResponseDTO(user.getName(), "User email updated successfully"));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity delete(@RequestParam String email) {
+        User user = this.repository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        this.repository.delete(user);
+
+        return ResponseEntity.ok("User deleted successfully");
     }
 }
