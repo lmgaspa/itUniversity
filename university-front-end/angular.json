@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-      "login-page": {
+      "university-front-end": {
         "projectType": "application",
         "schematics": {
           "@schematics/angular:component": {
@@ -63,10 +63,10 @@
             "builder": "@angular-devkit/build-angular:dev-server",
             "configurations": {
               "production": {
-                "buildTarget": "login-page:build:production"
+                "buildTarget": "university-front-end:build:production"
               },
               "development": {
-                "buildTarget": "login-page:build:development"
+                "buildTarget": "university-front-end:build:development"
               }
             },
             "defaultConfiguration": "development"
@@ -74,7 +74,7 @@
           "extract-i18n": {
             "builder": "@angular-devkit/build-angular:extract-i18n",
             "options": {
-              "buildTarget": "login-page:build"
+              "buildTarget": "university-front-end:build"
             }
           },
           "test": {
