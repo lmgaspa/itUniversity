@@ -1,38 +1,52 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { RouterModule } from '@angular/router';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
+import { FormControl, FormGroup, FormRecord, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
+import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { ToastrService } from 'ngx-toastr';
+
+interface LoginForm {
+  email: FormControl,
+  password: FormControl
+}
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule, FontAwesomeModule],
+  imports: [
+    DefaultLoginLayoutComponent,
+    ReactiveFormsModule,
+    PrimaryInputComponent
+  ],
+  providers: [
+    LoginService
+  ],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  loginForm: FormGroup;
-  showPassword: boolean = false;
-  faEye = faEye;
-  faEyeSlash = faEyeSlash;
+  loginForm!: FormGroup<LoginForm>;
 
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      login: ['', Validators.required],
-      password: ['', Validators.required],
-    });
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private toastService: ToastrService
+  ){
+    this.loginForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
+    })
   }
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
+  submit(){
+    this.loginService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
+      next: () => this.toastService.success("Login successful!"),
+      error: () => this.toastService.error("Unexpected error! Please try again later")
+    })
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      const { login, password } = this.loginForm.value;
-      console.log('Login:', login, 'Password:', password);
-    }
+  navigate(){
+    this.router.navigate(["signup"])
   }
 }

@@ -1,95 +1,45 @@
-<div class="register-container">
-    <div class="register-form">
-      <div class="header">
-        <h1>EXAMPLE UNIVERSITY</h1>
-      </div>
-      <h3>Create your account by filling in the fields below.</h3>
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="fullName">Full Name</label>
-          <input
+<app-default-login-layout
+    title="Sign in and start today!"
+    primaryBtnText="Signup Now"
+    secondaryBtnText="Login Now"
+    (submit)="submit()"
+    (navigate)="navigate()"
+    [disablePrimaryBtn]="!signupForm.valid"
+>
+    <form [formGroup]="signupForm">
+        <app-primary-input
+            formControlName="name"
+            inputName="name"
             type="text"
-            id="fullName"
-            placeholder="Enter your full name"
-            formControlName="fullName"
-          />
-          <div *ngIf="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched">
-            <small class="error">Full Name is required</small>
-          </div>
-        </div>
-  
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
+            label="Your name"
+            placeholder="John Doe"
+        >
+            <img src="/assets/svg/email-icon.svg"/>
+        </app-primary-input>
+        <app-primary-input
             formControlName="email"
-          />
-          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-            <small class="error">A valid email is required</small>
-          </div>
-        </div>
-  
-        <div class="form-group">
-          <label for="password">Password</label>
-          <div class="password-container">
-            <input
-              [type]="showPassword ? 'text' : 'password'"
-              id="password"
-              placeholder="Create a password"
-              formControlName="password"
-            />
-            <button
-              type="button"
-              class="toggle-visibility"
-              (click)="togglePasswordVisibility()"
-            >
-              <fa-icon [icon]="showPassword ? faEyeSlash : faEye"></fa-icon>
-            </button>
-          </div>
-          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-            <small class="error">Password is required</small>
-          </div>
-        </div>
-  
-        <div class="form-group">
-          <label for="confirmPassword">Confirm Password</label>
-          <div class="password-container">
-            <input
-              [type]="showPassword ? 'text' : 'password'"
-              id="confirmPassword"
-              placeholder="Confirm your password"
-              formControlName="confirmPassword"
-            />
-            <button
-              type="button"
-              class="toggle-visibility"
-              (click)="togglePasswordVisibility()"
-            >
-              <fa-icon [icon]="showPassword ? faEyeSlash : faEye"></fa-icon>
-            </button>
-          </div>
-          <div
-            *ngIf="
-              registerForm.get('confirmPassword')?.invalid &&
-              registerForm.get('confirmPassword')?.touched
-            "
-          >
-            <small class="error">Passwords must match</small>
-          </div>
-        </div>
-  
-        <button type="submit" class="register-button" [disabled]="registerForm.invalid">
-          Register
-        </button>
-      </form>
-      <div class="footer">
-        <a href="#" class="highlight-a">Already have an account? Login here!</a>
-      </div>
-    </div>
-    <div class="register-image">
-      <img src="assets/image.jpg" alt="Register Illustration" />
-    </div>
-  </div>
-  
+            inputName="email"
+            type="email"
+            label="Email"
+            placeholder="johndoe@gmail.com"
+        >
+            <img src="/assets/svg/email-icon.svg"/>
+        </app-primary-input>
+        <app-primary-input
+            formControlName="password"
+            inputName="password"
+            type="password"
+            label="Your Password"
+        >
+        <img src="/assets/svg/password-icon.svg"/>
+    </app-primary-input>
+    <app-primary-input
+        formControlName="passwordConfirm"
+        inputName="passwordConfirm"
+        type="password"
+        label="Confirm your Password"
+    >
+        <img src="/assets/svg/password-icon.svg"/>
+    </app-primary-input>
+    </form>
+</app-default-login-layout>

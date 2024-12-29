@@ -1,39 +1,56 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
+import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { ToastrService } from 'ngx-toastr';
+
+interface SignupForm {
+  name: FormControl,
+  email: FormControl,
+  password: FormControl,
+  passwordConfirm: FormControl
+}
 
 @Component({
   selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FontAwesomeModule],
+  imports: [
+    DefaultLoginLayoutComponent,
+    ReactiveFormsModule,
+    PrimaryInputComponent
+  ],
+  providers: [
+    LoginService
+  ],
+  templateUrl: './signup.component.html',
+  styleUrl: './signup.component.scss'
 })
 export class SignUpComponent {
-  registerForm: FormGroup;
-  showPassword: boolean = false;
-  faEye = faEye;
-  faEyeSlash = faEyeSlash;
+  signupForm!: FormGroup<SignupForm>;
 
-  constructor(private fb: FormBuilder) {
-    this.registerForm = this.fb.group({
-      fullName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
-    });
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private toastService: ToastrService
+  ){
+    this.signupForm = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      passwordConfirm: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    })
   }
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
+  submit(){
+    this.loginService.signup(this.signupForm.value.name, this.signupForm.value.email, this.signupForm.value.password).subscribe({
+      next: () => this.toastService.success("Register successful!"),
+      error: () => this.toastService.error("Unexpected error! Please try again later")
+    })
   }
 
-  onSubmit() {
-    if (this.registerForm.valid) {
-      const { fullName, email, password, confirmPassword } = this.registerForm.value;
-      console.log('Full Name:', fullName, 'Email:', email, 'Password:', password, 'Confirm Password:', confirmPassword);
-    }
+  navigate(){
+    this.router.navigate(["login"])
   }
 }

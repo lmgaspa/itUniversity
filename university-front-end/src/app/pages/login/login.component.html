@@ -1,66 +1,29 @@
-<div class="login-container">
-  <div class="login-form">
-    <div class="header">
-      <h1>EXAMPLE UNIVERSITY</h1>
-    </div>
-    <h3>Welcome! Please use the same credentials you use on the Portal.</h3>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="login">Login</label>
-        <input
-          type="text"
-          id="login"
-          placeholder="Enter your login"
-          formControlName="login"
-        />
-        <div
-          *ngIf="
-            loginForm.get('login')?.invalid && loginForm.get('login')?.touched
-          "
+<app-default-login-layout
+    title="Login into your account"
+    primaryBtnText="Login Now"
+    secondaryBtnText="Signup Now"
+    (submit)="submit()"
+    (navigate)="navigate()"
+    [disablePrimaryBtn]="!loginForm.valid"
+>
+    <form [formGroup]="loginForm">
+        <app-primary-input
+            formControlName="email"
+            inputName="email"
+            type="email"
+            label="Email"
+            placeholder="johndoe@gmail.com"
         >
-          <small class="error">Login is required</small>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <div class="password-container">
-          <input
-            [type]="showPassword ? 'text' : 'password'"
-            id="password"
-            placeholder="Enter your password"
+            <img src="/assets/svg/email-icon.svg"/>
+        </app-primary-input>
+        <app-primary-input
             formControlName="password"
-          />
-          <button
-            type="button"
-            class="toggle-visibility"
-            (click)="togglePasswordVisibility()"
-          >
-            <fa-icon [icon]="showPassword ? faEyeSlash : faEye"></fa-icon>
-          </button>
-        </div>
-        <div
-          *ngIf="
-            loginForm.get('password')?.invalid &&
-            loginForm.get('password')?.touched
-          "
+            inputName="password"
+            type="password"
+            label="Your Password"
         >
-          <small class="error">Password is required</small>
-        </div>
-      </div>
-      <button type="submit" class="login-button" [disabled]="loginForm.invalid">
-        Login
-      </button>
+        <img src="/assets/svg/password-icon.svg"/>
+    </app-primary-input>
+    <span>Forgot password?</span>
     </form>
-    <div class="footer">
-      <a href="#">Forgot password</a>
-      <br />
-      <a [routerLink]="'/signup'" class="highlight-a">
-        Don't have an Account? Register here!
-      </a>
-      
-    </div>
-  </div>
-  <div class="login-image">
-    <img src="assets/image.jpg" alt="Login Illustration" />
-  </div>
-</div>
+</app-default-login-layout>
