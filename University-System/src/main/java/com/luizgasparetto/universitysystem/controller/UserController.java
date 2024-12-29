@@ -23,7 +23,7 @@ public class UserController {
         return ResponseEntity.ok("success!");
     }
 
-    @GetMapping("/all")
+    @GetMapping("/getallusers")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);

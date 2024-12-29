@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/user/all").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user/getallusers").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Adicionar filtro customizado antes do filtro padrão de autenticação
