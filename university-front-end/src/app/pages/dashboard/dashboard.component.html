@@ -1,0 +1,83 @@
+<div class="dashboard">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <h2>Universidade</h2>
+      
+        <div class="category">
+          <h3>Graduação</h3>
+          <ul>
+            <li><a routerLink="/dashboard/classes"><i class="fas fa-chalkboard"></i> Minhas Aulas</a></li>
+            <li><a routerLink="/dashboard/grades"><i class="fas fa-file-alt"></i> Avaliações e Notas</a></li>
+            <li><a routerLink="/dashboard/integrator-project"><i class="fas fa-project-diagram"></i> Projeto Integrador</a></li>
+            <li><a routerLink="/dashboard/extension-activity"><i class="fas fa-briefcase"></i> Atividade Extensionista</a></li>
+            <li><a routerLink="/dashboard/complementary-activities"><i class="fas fa-tasks"></i> Atividades Complementares</a></li>
+            <li><a routerLink="/dashboard/calendar"><i class="fas fa-calendar-alt"></i> Calendário Acadêmico</a></li>
+            <li><a routerLink="/dashboard/library"><i class="fas fa-book"></i> Biblioteca</a></li>
+          </ul>
+        </div>
+      
+        <div class="category">
+          <h3>Secretaria Acadêmica</h3>
+          <ul>
+            <li><a routerLink="/dashboard/announcements"><i class="fas fa-bullhorn"></i> Avisos</a></li>
+            <li><a routerLink="/dashboard/documents"><i class="fas fa-file-alt"></i> Documentação</a></li>
+            <li><a routerLink="/dashboard/social-graduation"><i class="fas fa-users"></i> Graduação Social</a></li>
+            <li><a routerLink="/dashboard/requests"><i class="fas fa-envelope"></i> Minhas Solicitações</a></li>
+            <li><a routerLink="/dashboard/contracts"><i class="fas fa-file-contract"></i> Meus Contratos</a></li>
+            <li><a routerLink="/dashboard/finance"><i class="fas fa-wallet"></i> Central Financeira <span class="new-badge">Novo</span></a></li>
+          </ul>
+        </div>
+      
+        <div class="category">
+          <h3>Gerenciador de Estudos</h3>
+          <ul>
+            <li><a routerLink="/dashboard/performance-monitor"><i class="fas fa-chart-line"></i> Monitor de Desempenho</a></li>
+            <li><a routerLink="/dashboard/study-schedule"><i class="fas fa-calendar-check"></i> Cronograma de Estudos</a></li>
+          </ul>
+        </div>
+      </nav>
+      
+  
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <h1>Bem-vindo, {{ username }}</h1>
+        <button class="logout-btn" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
+      </header>
+  
+      <section class="overview">
+        <div class="card">
+          <h3>Próxima Aula</h3>
+          <p>{{ nextClass.subject }} - {{ nextClass.time }}</p>
+        </div>
+        <div class="card">
+          <h3>Média Geral</h3>
+          <p>{{ averageGrade }}</p>
+        </div>
+        <div class="card">
+          <h3>Mensagens</h3>
+          <p>{{ unreadMessages }} não lidas</p>
+        </div>
+      </section>
+  
+      <section class="activities">
+        <h2>Atividades Recentes</h2>
+        <ul>
+          <li *ngFor="let activity of recentActivities">
+            <span>{{ activity.description }}</span>
+            <span class="activity-date">{{ activity.date }}</span>
+          </li>
+        </ul>
+      </section>
+  
+      <section class="resources">
+        <h2>Recursos Recomendados</h2>
+        <div class="resource-links">
+          <a href="https://library.university.edu" target="_blank"><i class="fas fa-book"></i> Biblioteca Online</a>
+          <a href="https://tutoring.university.edu" target="_blank"><i class="fas fa-chalkboard-teacher"></i> Tutoria</a>
+          <a href="https://events.university.edu" target="_blank"><i class="fas fa-calendar-check"></i> Eventos Acadêmicos</a>
+        </div>
+      </section>
+    </div>
+  </div>
+  

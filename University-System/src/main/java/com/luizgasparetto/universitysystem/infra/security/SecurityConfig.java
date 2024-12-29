@@ -44,7 +44,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "api/v1/auth/update-password/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/auth/update/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "api/v1/auth/delete/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "api/v1/user/getallusers").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1/user/get-all-users").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
