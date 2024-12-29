@@ -17,18 +17,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     // Recuperar informações do usuário logado
-    this.username = sessionStorage.getItem('name') || 'Aluno';
-
-    // Simulação de dados
-    this.nextClass = { subject: 'Matemática', time: '10:00 AM' }; // Dados simulados, substituir por um serviço real
-    this.averageGrade = 8.5; // Simulação da média, substituir por dados reais
-    this.unreadMessages = 3; // Número de mensagens não lidas
-    this.recentActivities = [
-      { description: 'Entregou a atividade de Biologia', date: '2024-12-28' },
-      { description: 'Participou do fórum de Física', date: '2024-12-27' },
-      { description: 'Assistiu à aula de Química', date: '2024-12-26' }
-    ];
-  }
+    this.username = sessionStorage.getItem('name') || 'Student';
+ }
 
   logout(): void {
     sessionStorage.clear();
