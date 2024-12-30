@@ -1,6 +1,6 @@
 package com.luizgasparetto.universitysystem.infra.security;
 
-import com.luizgasparetto.universitysystem.Repository.UserRepository;
+import com.luizgasparetto.universitysystem.repository.UserRepository;
 import com.luizgasparetto.universitysystem.domain.user.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

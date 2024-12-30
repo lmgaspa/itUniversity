@@ -1,6 +1,6 @@
 package com.luizgasparetto.universitysystem.infra.security;
 
-import com.luizgasparetto.universitysystem.Repository.UserRepository;
+import com.luizgasparetto.universitysystem.repository.UserRepository;
 import com.luizgasparetto.universitysystem.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

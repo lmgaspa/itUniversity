@@ -1,4 +1,4 @@
-package com.luizgasparetto.universitysystem.Repository;
+package com.luizgasparetto.universitysystem.repository;
 
 import com.luizgasparetto.universitysystem.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

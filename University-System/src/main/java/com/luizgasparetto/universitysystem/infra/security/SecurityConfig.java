@@ -36,15 +36,24 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/v1/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/v1/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "api/v1/auth/update").permitAll()
-                        .requestMatchers(HttpMethod.PATCH, "api/v1/auth/update-email/**").permitAll()
-                        .requestMatchers(HttpMethod.PATCH, "api/v1/auth/update-name/**").permitAll()
-                        .requestMatchers(HttpMethod.PATCH, "api/v1/auth/update-password/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "api/v1/auth/update/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "api/v1/auth/delete/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "api/v1/user/get-all-users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/register-admin").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/auth/update").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/auth/update-email/**").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/auth/update-name/**").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/auth/update-password/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/auth/update/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/auth/delete/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/user/find-all-users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/courses/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/courses/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/courses/create-course").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/courses/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/courses/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/courses/delete-course").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/enrollments/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/enrollments/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
@@ -64,7 +73,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200")); // Substituir pela origem de produção, se necessário
+        configuration.setAllowedOrigins(List.of("http://localhost:4200", "https://university-front-end-ten.vercel.app"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

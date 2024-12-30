@@ -1,6 +1,7 @@
 package com.luizgasparetto.universitysystem.controller;
 
-import com.luizgasparetto.universitysystem.Repository.UserRepository;
+import com.luizgasparetto.universitysystem.domain.user.Role;
+import com.luizgasparetto.universitysystem.repository.UserRepository;
 import com.luizgasparetto.universitysystem.domain.user.User;
 import com.luizgasparetto.universitysystem.dto.LoginRequestDTO;
 import com.luizgasparetto.universitysystem.dto.RegisterRequestDTO;
@@ -43,12 +44,31 @@ public class AuthController {
             newUser.setPassword(passwordEncoder.encode(body.password()));
             newUser.setEmail(body.email());
             newUser.setName(body.name());
+            newUser.setRole(Role.ROLE_USER);
             this.repository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
             return ResponseEntity.ok(new ResponseDTO(newUser.getName(), token));
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/register-admin")
+    public ResponseEntity registerAdmin(@RequestBody RegisterRequestDTO body) {
+        Optional<User> user = repository.findByEmail(body.email());
+
+        if (user.isEmpty()) {
+            User newUser = new User();
+            newUser.setPassword(passwordEncoder.encode(body.password()));
+            newUser.setEmail(body.email());
+            newUser.setName(body.name());
+            newUser.setRole(Role.ROLE_ADMIN);
+            repository.save(newUser);
+
+            String token = tokenService.generateToken(newUser);
+            return ResponseEntity.ok(new ResponseDTO(newUser.getName(), token));
+        }
+        return ResponseEntity.badRequest().body("User already exists");
     }
 
     @PutMapping("/update/{id}")
@@ -109,7 +129,7 @@ public class AuthController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete-user/{id}")
     public ResponseEntity delete(@PathVariable UUID id) {
         User user = this.repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         this.repository.delete(user);

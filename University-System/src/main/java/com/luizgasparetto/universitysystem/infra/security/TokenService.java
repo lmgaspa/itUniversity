@@ -15,17 +15,18 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
-    @Value("${api.security.token.secret")
+    @Value("${api.security.token.secret}")
     private String secret;
+
     public String generateToken(User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            String token = JWT.create()
+            return JWT.create()
                     .withIssuer("universitysystem")
                     .withSubject(user.getEmail())
+                    .withClaim("role", user.getRole().name())
                     .withExpiresAt(this.generateExpirationDate())
                     .sign(algorithm);
-            return token;
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Error while authenticating");
         }
@@ -44,7 +45,21 @@ public class TokenService {
         }
     }
 
+    public String getRoleFromToken(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            return JWT.require(algorithm)
+                    .withIssuer("universitysystem")
+                    .build()
+                    .verify(token)
+                    .getClaim("role").asString();
+
+        } catch (JWTVerificationException exception) {
+            throw new RuntimeException("Error while validating token");
+        }
+    }
+
     private Instant generateExpirationDate() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusHours(24).toInstant(ZoneOffset.of("-03:00"));
     }
 }

@@ -1,6 +1,6 @@
 package com.luizgasparetto.universitysystem.controller;
 
-import com.luizgasparetto.universitysystem.Repository.UserRepository;
+import com.luizgasparetto.universitysystem.repository.UserRepository;
 import com.luizgasparetto.universitysystem.domain.user.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,7 @@ public class UserController {
         return ResponseEntity.ok("success!");
     }
 
-    @GetMapping("/get-all-users")
+    @GetMapping("/find-all-users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
