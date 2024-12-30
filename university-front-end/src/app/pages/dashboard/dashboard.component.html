@@ -5,33 +5,94 @@
     <div class="category">
       <h3>Undergraduate</h3>
       <ul>
-        <li><a routerLink="/dashboard/classes"><i class="fas fa-chalkboard"></i> My Classes</a></li>
-        <li><a routerLink="/dashboard/grades"><i class="fas fa-file-alt"></i> Grades and Assessments</a></li>
-        <li><a routerLink="/dashboard/integrator-project"><i class="fas fa-project-diagram"></i> Capstone Project</a></li>
-        <li><a routerLink="/dashboard/extension-activity"><i class="fas fa-briefcase"></i> Extension Activity</a></li>
-        <li><a routerLink="/dashboard/complementary-activities"><i class="fas fa-tasks"></i> Complementary Activities</a></li>
-        <li><a routerLink="/dashboard/calendar"><i class="fas fa-calendar-alt"></i> Academic Calendar</a></li>
-        <li><a routerLink="/dashboard/library"><i class="fas fa-book"></i> Library</a></li>
+        <li>
+          <a routerLink="/dashboard/classes"
+            ><i class="fas fa-chalkboard"></i> My Classes</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/grades"
+            ><i class="fas fa-file-alt"></i> Grades and Assessments</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/integrator-project"
+            ><i class="fas fa-project-diagram"></i> Capstone Project</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/extension-activity"
+            ><i class="fas fa-briefcase"></i> Extension Activity</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/complementary-activities"
+            ><i class="fas fa-tasks"></i> Complementary Activities</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/calendar"
+            ><i class="fas fa-calendar-alt"></i> Academic Calendar</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/library"
+            ><i class="fas fa-book"></i> Library</a
+          >
+        </li>
       </ul>
     </div>
 
     <div class="category">
       <h3>Academic Office</h3>
       <ul>
-        <li><a routerLink="/dashboard/announcements"><i class="fas fa-bullhorn"></i> Announcements</a></li>
-        <li><a routerLink="/dashboard/documents"><i class="fas fa-file-alt"></i> Documentation</a></li>
-        <li><a routerLink="/dashboard/social-graduation"><i class="fas fa-users"></i> Social Graduation</a></li>
-        <li><a routerLink="/dashboard/requests"><i class="fas fa-envelope"></i> My Requests</a></li>
-        <li><a routerLink="/dashboard/contracts"><i class="fas fa-file-contract"></i> My Contracts</a></li>
-        <li><a routerLink="/dashboard/finance"><i class="fas fa-wallet"></i> Financial Center <span class="new-badge">New</span></a></li>
+        <li>
+          <a routerLink="/dashboard/announcements"
+            ><i class="fas fa-bullhorn"></i> Announcements</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/documents"
+            ><i class="fas fa-file-alt"></i> Documentation</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/social-graduation"
+            ><i class="fas fa-users"></i> Social Graduation</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/requests"
+            ><i class="fas fa-envelope"></i> My Requests</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/contracts"
+            ><i class="fas fa-file-contract"></i> My Contracts</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/finance"
+            ><i class="fas fa-wallet"></i> Financial Center
+            <span class="new-badge">New</span></a
+          >
+        </li>
       </ul>
     </div>
 
     <div class="category">
       <h3>Study Manager</h3>
       <ul>
-        <li><a routerLink="/dashboard/performance-monitor"><i class="fas fa-chart-line"></i> Performance Monitor</a></li>
-        <li><a routerLink="/dashboard/study-schedule"><i class="fas fa-calendar-check"></i> Study Schedule</a></li>
+        <li>
+          <a routerLink="/dashboard/performance-monitor"
+            ><i class="fas fa-chart-line"></i> Performance Monitor</a
+          >
+        </li>
+        <li>
+          <a routerLink="/dashboard/study-schedule"
+            ><i class="fas fa-calendar-check"></i> Study Schedule</a
+          >
+        </li>
       </ul>
     </div>
   </nav>
@@ -40,31 +101,38 @@
   <div class="main-content">
     <header>
       <h1>Welcome, {{ username }}</h1>
-      <button class="logout-btn" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
     </header>
 
     <section class="activities">
       <h2>Enrolled Courses</h2>
-      <div class="card-container">
-        <div class="card">
-          <img src="assets/images/java.png" alt="Java" />
-          <h3>Java Enrolled</h3>
-          <p>Master Java programming with comprehensive resources</p>
-        </div>
-        <div class="card">
-          <img src="assets/images/spring.png" alt="Spring Framework" />
-          <h3>Spring Boot</h3>
-          <p>Create robust Java applications</p>
-        </div>
-        <div class="card">
-          <img src="assets/images/angular.png" alt="angular" />
-          <h3>Angular</h3>
-          <p>Learn Angular</p>
-        </div>
-        <div class="card">
-          <img src="assets/images/postgree.png" alt="PostgreSQL" />
-          <h3>Database Management</h3>
-          <p>PostgreSQL</p>
+      <button class="start-course-btn" (click)="openModal()">Start a New Course</button>
+
+      <!-- Modal -->
+      <div class="modal" *ngIf="isModalOpen">
+        <div class="modal-content">
+          <h3>Select a Course</h3>
+          <div *ngFor="let course of availableCourses">
+            <label>
+              <input
+                type="radio"
+                name="selectedCourse"
+                [value]="course.id"
+                (change)="selectCourse(course)"
+              />
+              {{ course.name }}
+            </label>
+          </div>
+          <button
+            class="confirm-btn"
+            [disabled]="!selectedCourse"
+            (click)="confirmEnrollment()"
+          >
+            Confirm
+          </button>
+          <button class="close-btn" (click)="closeModal()">Cancel</button>
         </div>
       </div>
     </section>
@@ -73,11 +141,14 @@
       <h2>Formations</h2>
       <div class="card-container">
         <div class="card" *ngFor="let course of courses">
-          <img [src]="'assets/images/' + course.image" [alt]="course.name" />
+          <img [src]="course.imageUrl" [alt]="course.name" width="300" height="200" />
           <h3>{{ course.name }}</h3>
           <p>{{ course.description }}</p>
         </div>
       </div>
+      <ng-template #loading>
+        <p>Loading courses...</p>
+      </ng-template>
     </section>
   </div>
 </div>
