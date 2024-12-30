@@ -72,55 +72,10 @@
     <section class="formations">
       <h2>Formations</h2>
       <div class="card-container">
-        <div class="card">
-          <img src="assets/images/reactjs.png" alt="ReactJs" />
-          <h3>React Basics</h3>
-          <p>Learn the fundamentals of React.js</p>
-        </div>
-        <div class="card">
-          <img src="assets/images/vue.png" alt="Vue.js" />
-          <h3>Advanced Vue.js</h3>
-          <p>Master complex features of Vue.js</p>
-        </div>
-        <div class="card">
-          <img src="assets/images/angular.png" alt="angular" />
-          <h3>Angular</h3>
-          <p>Learn Angular</p>
-        </div>
-        <div class="card">
-          <img src="assets/images/nodejs.png" alt="NodeJs" />
-          <h3>Backend with Node.js</h3>
-          <p>Build scalable backend applications</p>
-        </div>
-        <div class="card">
-            <img src="assets/images/django.jpg" alt="django" />
-            <h3>Django</h3>
-            <p>Introduce to Django</p>
-          </div>
-          <div class="card">
-            <img src="assets/images/java.png" alt="Java" />
-            <h3>Java Enrolled</h3>
-            <p>Master Java programming with comprehensive resources</p>
-          </div>
-        <div class="card">
-          <img src="assets/images/spring.png" alt="Spring Framework" />
-          <h3>Spring Boot</h3>
-          <p>Create robust Java applications</p>
-        </div>
-        <div class="card">
-          <img src="assets/images/docker.png" alt="docker" />
-          <h3>Docker for Beginners</h3>
-          <p>Containerize your applications</p>
-        </div>
-        <div class="card">
-          <img src="assets/images/postgree.png" alt="PostgreSQL" />
-          <h3>Database Management</h3>
-          <p>PostgreSQL</p>
-        </div>
-        <div class="card">
-          <img src="assets/images/mongo.jpg" alt="MongoDb" />
-          <h3>Collection Management</h3>
-          <p>MongoDB</p>
+        <div class="card" *ngFor="let course of courses">
+          <img [src]="'assets/images/' + course.image" [alt]="course.name" />
+          <h3>{{ course.name }}</h3>
+          <p>{{ course.description }}</p>
         </div>
       </div>
     </section>

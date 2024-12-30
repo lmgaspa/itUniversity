@@ -10,8 +10,7 @@ import java.time.LocalDate;
 public record CourseRequestDTO(
         @NotBlank String name,
         @NotBlank String description,
-        @NotNull @FutureOrPresent LocalDate startDate,
-        @NotNull @Future LocalDate endDate
+        @NotBlank String imageUrl
 ) {}
 
 

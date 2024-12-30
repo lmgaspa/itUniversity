@@ -25,8 +25,6 @@ public class CourseController {
         Course newCourse = new Course();
         newCourse.setName(body.name());
         newCourse.setDescription(body.description());
-        newCourse.setStartDate(body.startDate());
-        newCourse.setEndDate(body.endDate());
         courseRepository.save(newCourse);
 
         return ResponseEntity.ok(new ResponseDTO(newCourse.getName(), "Course created successfully"));
@@ -44,14 +42,12 @@ public class CourseController {
         return ResponseEntity.ok(course);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update-course/{id}")
     public ResponseEntity updateCourse(@PathVariable UUID id, @Valid @RequestBody CourseRequestDTO body) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
 
         course.setName(body.name());
         course.setDescription(body.description());
-        course.setStartDate(body.startDate());
-        course.setEndDate(body.endDate());
         courseRepository.save(course);
 
         return ResponseEntity.ok(new ResponseDTO(course.getName(), "Course updated successfully"));

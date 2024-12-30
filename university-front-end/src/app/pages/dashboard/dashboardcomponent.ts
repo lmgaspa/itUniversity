@@ -1,24 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CourseService } from '../../services/course.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
   username: string = '';
-  nextClass: { subject: string; time: string } = { subject: '', time: '' };
-  averageGrade: number = 0;
-  unreadMessages: number = 0;
-  recentActivities: Array<{ description: string; date: string }> = [];
+  courses: any[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private courseService: CourseService) {}
 
   ngOnInit(): void {
-    // Recuperar informações do usuário logado
     this.username = sessionStorage.getItem('name') || 'Student';
- }
+    this.loadCourses();
+  }
+
+  loadCourses(): void {
+    this.courseService.getCourses().subscribe((data) => {
+      this.courses = data;
+    });
+  }
 
   logout(): void {
     sessionStorage.clear();
