@@ -3,67 +3,6 @@
 .dashboard {
   display: flex;
 
-  .sidebar {
-    width: 250px;
-    background: linear-gradient(135deg, $secondary-color, $primary-color);
-    color: #ecf0f1;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
-
-    .category {
-      margin-bottom: 20px;
-
-      h3 {
-        font-size: 16px;
-        color: #bdc3c7;
-        margin-bottom: 10px;
-      }
-
-      ul {
-        list-style: none;
-        padding: 0;
-
-        li {
-          margin: 10px 0;
-
-          a {
-            text-decoration: none;
-            color: #ecf0f1;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            transition: color 0.3s ease;
-
-            i {
-              margin-right: 10px;
-              font-size: 16px;
-            }
-
-            &:hover,
-            &:focus {
-              color: #1abc9c;
-            }
-          }
-        }
-
-        .new-badge {
-          background: #1abc9c;
-          color: #fff;
-          font-size: 10px;
-          padding: 2px 5px;
-          border-radius: 3px;
-          margin-left: 5px;
-        }
-      }
-    }
-  }
-
   .main-content {
     flex: 1;
     background: #ecf0f1;
@@ -132,6 +71,39 @@
       }
     }
 
+    .cancel-course-btn {
+      background: linear-gradient(135deg, #4e05c4, #eb6ae4); // Cor do botão
+      color: #ffffff; // Cor do texto
+      border: none; // Sem borda
+      padding: 12px 20px; // Espaçamento interno
+      font-size: 16px; // Tamanho da fonte
+      font-weight: bold; // Fonte em negrito
+      border-radius: 8px; // Bordas arredondadas
+      cursor: pointer; // Indica que é clicável
+      transition: all 0.3s ease; // Animações suaves
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Sombra
+      text-transform: uppercase; // Texto em maiúsculas
+      display: inline-block; // Para manter o botão com tamanho ajustável ao conteúdo
+      margin: 10px 0; // Espaço em volta do botão
+    
+      &:hover {
+        background: linear-gradient(135deg, #eb6ae4, #eb6ae4); // Muda a cor no hover
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); // Aumenta a sombra no hover
+        transform: translateY(-3px); // Efeito de "elevação"
+      }
+    
+      &:focus {
+        outline: none; // Remove a borda padrão ao focar
+        box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.4); // Adiciona uma borda de foco
+      }
+    
+      &:active {
+        background: linear-gradient(135deg, #eb6ae4, #eb6ae4); // Cor ao clicar
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15); // Sombra menor ao clicar
+        transform: translateY(0); // Remove a elevação ao clicar
+      }
+    }
+
     .activities,
     .formations {
       margin-bottom: 30px;
@@ -187,58 +159,81 @@
         }
       }
       
-      .modal {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      .modal-overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.6);
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
         z-index: 1000;
       }
       
       .modal-content {
-        background: #fff;
+        background: white;
         padding: 20px;
-        border-radius: 8px;
-        width: 400px;
-        max-width: 90%;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 1200px;
         text-align: center;
+        position: relative;
       }
       
-      .confirm-btn {
-        background: #28a745;
-        color: #fff;
-        padding: 10px 15px;
-        margin: 10px;
+      .course-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 20px;
+        padding: 20px 0;
+      }
+      
+      .course-box {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+      
+      .course-box:hover {
+        transform: scale(1.05);
+      }
+      
+      .course-img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 10px;
+      }
+      
+      .select-btn {
+        background: #007bff;
+        color: white;
         border: none;
-        border-radius: 5px;
+        padding: 5px 10px;
+        border-radius: 4px;
         cursor: pointer;
-        transition: background 0.3s ease;
-      
-        &:hover {
-          background: #218838;
-        }
+        margin-top: 10px;
       }
       
-      .close-btn {
-        background: #dc3545;
-        color: #fff;
-        padding: 10px 15px;
+      .select-btn:hover {
+        background: #0056b3;
+      }
+      
+      .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+      
+      .modal-actions button {
         margin: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-      
-        &:hover {
-          background: #c82333;
-        }
       }
-      
+            
 
       @media (max-width: 768px) {
         .card-container .card {

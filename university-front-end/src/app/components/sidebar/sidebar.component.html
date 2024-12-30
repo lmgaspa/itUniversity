@@ -1,0 +1,13 @@
+<div class="sidebar" >
+<h2>IT University</h2>
+<div *ngFor="let category of sidebarCategories" class="category">
+  <h3>{{ category.title }}</h3>
+  <ul>
+    <li *ngFor="let item of category.items">
+      <a [routerLink]="item.link">
+        <i [class]="item.icon"></i> {{ item.label }}
+        <span *ngIf="item.badge" class="badge">{{ item.badge }}</span>
+      </a>
+    </li>
+  </ul>
+</div>
