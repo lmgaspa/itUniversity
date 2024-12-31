@@ -11,24 +11,14 @@ import { CommonModule } from '@angular/common';
 export class ModalComponent {
   @Input() title: string = '';
   @Input() courses: any[] = [];
-  @Output() confirm = new EventEmitter<any>();
-  @Output() cancel = new EventEmitter<void>();
-  @Output() select = new EventEmitter<any>();
-
-  selectedCourse: any | null = null;
-
-  selectCourse(course: any): void {
-    this.selectedCourse = course;
-    this.select.emit(course);
-  }
+  @Output() confirm = new EventEmitter<void>(); // Evento para confirmar a ação
+  @Output() cancel = new EventEmitter<void>(); // Evento para cancelar
 
   confirmSelection(): void {
-    if (this.selectedCourse) {
-      this.confirm.emit(this.selectedCourse);
-    }
+    this.confirm.emit(); // Emite o evento de confirmação
   }
 
   cancelSelection(): void {
-    this.cancel.emit();
+    this.cancel.emit(); // Emite o evento de cancelamento
   }
 }

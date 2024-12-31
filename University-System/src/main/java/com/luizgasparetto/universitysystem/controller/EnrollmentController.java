@@ -24,6 +24,10 @@ public class EnrollmentController {
 
     @PostMapping("/enroll")
     public ResponseEntity enroll(@RequestBody EnrollmentRequestDTO body) {
+        if (body.userId() == null || body.courseId() == null) {
+            return ResponseEntity.badRequest().body("User ID and Course ID must not be null");
+        }
+
         var user = userRepository.findById(body.userId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         var course = courseRepository.findById(body.courseId())
@@ -45,6 +49,7 @@ public class EnrollmentController {
 
         return ResponseEntity.ok(new ResponseDTO(user.getName(), "Enrolled successfully in " + course.getName()));
     }
+
 
     @GetMapping("/enroll/user/{userId}")
     public ResponseEntity<List<Enrollment>> getUserEnrollments(@PathVariable UUID userId) {

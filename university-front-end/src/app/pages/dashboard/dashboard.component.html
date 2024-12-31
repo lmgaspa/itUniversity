@@ -21,8 +21,17 @@
     <section class="formations">
       <h2>Formations</h2>
       <div class="card-container">
-        <div class="card" *ngFor="let course of courses" (click)="openFormationModal(course)">
-          <img [src]="course.imageUrl" [alt]="course.name" width="300" height="200" />
+        <div
+          class="card"
+          *ngFor="let course of courses"
+          (click)="openFormationModal(course)"
+        >
+          <img
+            [src]="course.imageUrl"
+            [alt]="course.name"
+            width="300"
+            height="200"
+          />
           <h3>{{ course.name }}</h3>
           <p>{{ course.description }}</p>
         </div>
@@ -34,11 +43,11 @@
 
     <!-- Modal for Course Details -->
     <app-modal
-      *ngIf="isFormationModalOpen"
-      [title]="selectedFormationCourse?.name || 'Course Details'"
-      [courses]="[selectedFormationCourse]"
-      (confirm)="confirmFormationEnrollment()"
-      (cancel)="closeFormationModal()"
-    ></app-modal>
+    *ngIf="isFormationModalOpen"
+    [title]="selectedFormationCourse?.name || 'Course Details'"
+    [courses]="[selectedFormationCourse]"
+    (confirm)="confirmFormationEnrollment()"
+    (cancel)="closeFormationModal()">
+  </app-modal>
   </div>
 </div>
