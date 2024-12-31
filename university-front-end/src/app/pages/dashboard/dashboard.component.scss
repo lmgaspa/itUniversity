@@ -81,49 +81,48 @@
       }
 
       .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px; /* Space between cards */
-        margin-top: 10px; /* Space between title and cards */
-
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); // Define o número de colunas
+        gap: 20px; // Espaçamento entre os cards
+        margin-top: 10px;
+      
         .card {
           background: #fff;
           border-radius: 5px;
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
           padding: 20px;
-          flex: 1 1 calc(25% - 20px); /* Quatro cards por linha */
           text-align: center;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        
+          height: 350px; // Define altura fixa para os cards
           display: flex;
           flex-direction: column;
-          align-items: center; /* Centraliza o conteúdo no eixo horizontal */
-          justify-content: center; /* Centraliza o conteúdo no eixo vertical */
-        
+          align-items: center; // Centraliza o conteúdo no eixo horizontal
+          justify-content: center; // Centraliza o conteúdo no eixo vertical
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
           &:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
           }
-        
+      
           img {
-            max-width: 100%; /* A largura não ultrapassa o tamanho do card */
-            max-height: 150px; /* Define uma altura máxima */
-            object-fit: contain; /* Garante que a imagem seja exibida inteira dentro do limite */
+            max-width: 100%; // A largura não ultrapassa o tamanho do card
+            max-height: 150px; // Define uma altura máxima
+            object-fit: contain; // Garante que a imagem seja exibida inteira dentro do limite
             margin-bottom: 10px;
           }
-        
+      
           h3 {
             font-size: 16px;
             margin-bottom: 10px;
             color: #34495e;
           }
-        
+      
           p {
             font-size: 14px;
             color: #7f8c8d;
           }
         }
-      } 
+      }      
 
       @media (max-width: 768px) {
         .card-container .card {
