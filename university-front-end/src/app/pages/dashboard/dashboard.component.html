@@ -13,6 +13,21 @@
 
     <section class="activities">
       <h2>Enrolled Courses</h2>
+      <div class="card-container">
+        <div
+          class="card"
+          *ngFor="let enrolledCourse of enrolledCourses"
+        >
+          <img
+            [src]="enrolledCourse.course.imageUrl"
+            [alt]="enrolledCourse.course.name"
+            width="300"
+            height="200"
+          />
+          <h3>{{ enrolledCourse.course.name }}</h3>
+          <p>{{ enrolledCourse.course.description }}</p>
+        </div>
+      </div>
       <button class="start-course-btn">
         Click on one of the courses below to enroll
       </button>
@@ -43,11 +58,11 @@
 
     <!-- Modal for Course Details -->
     <app-modal
-    *ngIf="isFormationModalOpen"
-    [title]="selectedFormationCourse?.name || 'Course Details'"
-    [courses]="[selectedFormationCourse]"
-    (confirm)="confirmFormationEnrollment()"
-    (cancel)="closeFormationModal()">
-  </app-modal>
+      *ngIf="isFormationModalOpen"
+      [title]="selectedFormationCourse?.name || 'Course Details'"
+      [courses]="[selectedFormationCourse]"
+      (confirm)="confirmFormationEnrollment()"
+      (cancel)="closeFormationModal()">
+    </app-modal>
   </div>
 </div>
