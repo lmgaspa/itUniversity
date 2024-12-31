@@ -1,6 +1,7 @@
 <div class="dashboard">
-  <!-- Sidebar -->,
+  <!-- Sidebar -->
   <app-sidebar></app-sidebar>
+
   <!-- Main Content -->
   <div class="main-content">
     <header>
@@ -12,52 +13,16 @@
 
     <section class="activities">
       <h2>Enrolled Courses</h2>
-      <button class="start-course-btn" (click)="openModal()">
-        Start a New Course
+      <button class="start-course-btn">
+        Click on one of the courses below to enroll
       </button>
-
-      <!-- Modal -->
-      <!-- Modal -->
-      <div class="modal-overlay" *ngIf="isModalOpen">
-        <div class="modal-content">
-          <h2>Select a Course</h2>
-          <div class="course-container">
-            <div
-              class="course-box"
-              *ngFor="let course of availableCourses; let i = index"
-              [class.active]="i === currentSlide"
-            >
-              <img
-                [src]="course.imageUrl"
-                alt="{{ course.name }}"
-                class="course-img"
-              />
-              <h3>{{ course.name }}</h3>
-              <p>{{ course.description }}</p>
-              <button class="select-btn" (click)="selectCourse(course)">
-                Select
-              </button>
-            </div>
-          </div>
-          
-          <div class="modal-actions">
-            <button class="start-course-btn" (click)="confirmEnrollment()">Confirm</button>
-            <button class="cancel-course-btn"(click)="closeModal()">Cancel</button>
-          </div>
-        </div>
-      </div>
     </section>
 
     <section class="formations">
       <h2>Formations</h2>
       <div class="card-container">
-        <div class="card" *ngFor="let course of courses">
-          <img
-            [src]="course.imageUrl"
-            [alt]="course.name"
-            width="300"
-            height="200"
-          />
+        <div class="card" *ngFor="let course of courses" (click)="openFormationModal(course)">
+          <img [src]="course.imageUrl" [alt]="course.name" width="300" height="200" />
           <h3>{{ course.name }}</h3>
           <p>{{ course.description }}</p>
         </div>
@@ -66,5 +31,14 @@
         <p>Loading courses...</p>
       </ng-template>
     </section>
+
+    <!-- Modal for Course Details -->
+    <app-modal
+      *ngIf="isFormationModalOpen"
+      [title]="selectedFormationCourse?.name || 'Course Details'"
+      [courses]="[selectedFormationCourse]"
+      (confirm)="confirmFormationEnrollment()"
+      (cancel)="closeFormationModal()"
+    ></app-modal>
   </div>
 </div>

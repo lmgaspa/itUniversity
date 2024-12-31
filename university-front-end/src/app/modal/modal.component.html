@@ -1,0 +1,16 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+      <h2>{{ title }}</h2>
+      <div class="course-container">
+        <div class="course-box" *ngFor="let course of courses">
+          <img [src]="course.imageUrl" alt="{{ course.name }}" class="course-img" />
+          <h3>{{ course.name }}</h3>
+          <p>{{ course.description }}</p>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="start-course-btn" (click)="confirmSelection()">Confirm</button>
+        <button class="cancel-course-btn" (click)="cancelSelection()">Cancel</button>
+      </div>
+    </div>
+</div>

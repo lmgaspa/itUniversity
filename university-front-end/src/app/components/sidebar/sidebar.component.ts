@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
 export class SidebarComponent {
   sidebarCategories = [
     {
-      title: 'Undergraduate',
+      title: 'Graduation',
       items: [
         { link: '/dashboard/classes', icon: 'fas fa-chalkboard', label: 'My Classes' },
         { link: '/dashboard/grades', icon: 'fas fa-file-alt', label: 'Grades and Assessments' },

@@ -37,7 +37,6 @@
         }
       }
     }
-
     .start-course-btn {
       background: linear-gradient(135deg, #105d4d, #1abc9c); // Cor do botão
       color: #ffffff; // Cor do texto
@@ -70,40 +69,7 @@
         transform: translateY(0); // Remove a elevação ao clicar
       }
     }
-
-    .cancel-course-btn {
-      background: linear-gradient(135deg, #4e05c4, #eb6ae4); // Cor do botão
-      color: #ffffff; // Cor do texto
-      border: none; // Sem borda
-      padding: 12px 20px; // Espaçamento interno
-      font-size: 16px; // Tamanho da fonte
-      font-weight: bold; // Fonte em negrito
-      border-radius: 8px; // Bordas arredondadas
-      cursor: pointer; // Indica que é clicável
-      transition: all 0.3s ease; // Animações suaves
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Sombra
-      text-transform: uppercase; // Texto em maiúsculas
-      display: inline-block; // Para manter o botão com tamanho ajustável ao conteúdo
-      margin: 10px 0; // Espaço em volta do botão
     
-      &:hover {
-        background: linear-gradient(135deg, #eb6ae4, #eb6ae4); // Muda a cor no hover
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); // Aumenta a sombra no hover
-        transform: translateY(-3px); // Efeito de "elevação"
-      }
-    
-      &:focus {
-        outline: none; // Remove a borda padrão ao focar
-        box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.4); // Adiciona uma borda de foco
-      }
-    
-      &:active {
-        background: linear-gradient(135deg, #eb6ae4, #eb6ae4); // Cor ao clicar
-        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15); // Sombra menor ao clicar
-        transform: translateY(0); // Remove a elevação ao clicar
-      }
-    }
-
     .activities,
     .formations {
       margin-bottom: 30px;
@@ -157,83 +123,7 @@
             color: #7f8c8d;
           }
         }
-      }
-      
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-      }
-      
-      .modal-content {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        width: 80%;
-        max-width: 1200px;
-        text-align: center;
-        position: relative;
-      }
-      
-      .course-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 20px;
-        padding: 20px 0;
-      }
-      
-      .course-box {
-        background: #f9f9f9;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 10px;
-        text-align: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-      }
-      
-      .course-box:hover {
-        transform: scale(1.05);
-      }
-      
-      .course-img {
-        width: 80px;
-        height: 80px;
-        object-fit: contain;
-        margin-bottom: 10px;
-      }
-      
-      .select-btn {
-        background: #007bff;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-top: 10px;
-      }
-      
-      .select-btn:hover {
-        background: #0056b3;
-      }
-      
-      .modal-footer {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-      }
-      
-      .modal-actions button {
-        margin: 10px;
-      }
-            
+      } 
 
       @media (max-width: 768px) {
         .card-container .card {
