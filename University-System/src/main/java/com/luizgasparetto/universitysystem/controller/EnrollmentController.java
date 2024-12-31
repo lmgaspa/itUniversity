@@ -46,13 +46,13 @@ public class EnrollmentController {
         return ResponseEntity.ok(new ResponseDTO(user.getName(), "Enrolled successfully in " + course.getName()));
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/enroll/user/{userId}")
     public ResponseEntity<List<Enrollment>> getUserEnrollments(@PathVariable UUID userId) {
         var enrollments = enrollmentRepository.findByUserId(userId);
         return ResponseEntity.ok(enrollments);
     }
 
-    @GetMapping("/course/{courseId}")
+    @GetMapping("/enroll/course/{courseId}")
     public ResponseEntity<List<Enrollment>> getCourseEnrollments(@PathVariable UUID courseId) {
         var enrollments = enrollmentRepository.findByCourseId(courseId);
         return ResponseEntity.ok(enrollments);
