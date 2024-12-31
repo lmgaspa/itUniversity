@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   isFormationModalOpen = false;
   selectedFormationCourse: any | null = null;
   username: string = 'Student';
+  isSaving = false;
 
   constructor(private http: HttpClient) {}
 
@@ -36,28 +37,22 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // Open the modal for the selected course
   openFormationModal(course: any): void {
     this.selectedFormationCourse = course;
     this.isFormationModalOpen = true;
   }
-
-  // Close the modal
-  closeFormationModal(): void {
-    this.isFormationModalOpen = false;
-    this.selectedFormationCourse = null;
-  }
-
-  // Confirm enrollment for the selected course
+  
   confirmFormationEnrollment(): void {
     if (!this.selectedFormationCourse) return;
-
+  
+    this.isSaving = true;
+  
     const payload = {
       userId: sessionStorage.getItem('userId'),
       courseId: this.selectedFormationCourse.id,
     };
-
-    this.http.post('/api/v1/enrollments/enroll', payload, {
+  
+    this.http.post('http://localhost:8080/api/v1/enrollments/enroll', payload, {
       headers: { 'Content-Type': 'application/json' },
     }).subscribe({
       next: () => {
@@ -68,8 +63,17 @@ export class DashboardComponent implements OnInit {
         console.error('Error enrolling in course:', err);
         alert(`Error enrolling in course: ${err.message}`);
       },
+      complete: () => {
+        this.isSaving = false;
+      },
     });
   }
+  
+  closeFormationModal(): void {
+    this.isFormationModalOpen = false;
+    this.selectedFormationCourse = null;
+  }
+  
 
   // Logout functionality
   logout(): void {
