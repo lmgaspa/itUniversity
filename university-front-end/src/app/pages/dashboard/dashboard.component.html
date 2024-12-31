@@ -21,18 +21,10 @@
     <section class="formations">
       <h2>Formations</h2>
       <div class="card-container">
-        <!-- Loop through courses -->
-        <div class="card" *ngFor="let course of courses">
+        <div class="card" *ngFor="let course of courses" (click)="openFormationModal(course)">
           <img [src]="course.imageUrl" [alt]="course.name" width="300" height="200" />
           <h3>{{ course.name }}</h3>
           <p>{{ course.description }}</p>
-          <!-- Button to enroll -->
-          <button 
-            class="enroll-btn" 
-            [disabled]="isSaving" 
-            (click)="openFormationModal(course)">
-            {{ isSaving ? 'Saving...' : 'Enroll' }}
-          </button>
         </div>
       </div>
       <ng-template #loading>
