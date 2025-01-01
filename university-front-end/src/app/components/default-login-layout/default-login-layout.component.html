@@ -1,20 +1,23 @@
 <main>
     <section class="form-section">
-        <h1>IT University</h1>
-       <h2>{{ title }}</h2>
-       <ng-content></ng-content>
-       <div class="btn-wrapper">
-            <button 
-                class="btn-primary" 
-                (click)="submit()"
-                [disabled]="disablePrimaryBtn"
-            >
-                {{ primaryBtnText }}
-            </button>
-            <button class="btn-secondary" (click)="navigate()">{{ secondaryBtnText }}</button>
-       </div>
+      <h1>IT University</h1>
+      <h2>{{ title }}</h2>
+      <ng-content></ng-content>
+      <div class="btn-wrapper">
+        <button 
+          class="btn-primary" 
+          (click)="submit()" 
+          [disabled]="disablePrimaryBtn"
+        >
+          {{ primaryBtnText }}
+        </button>
+        <button class="btn-secondary" (click)="navigate()">
+          {{ secondaryBtnText }}
+        </button>
+      </div>
     </section>
     <section class="main-section">
-        <img src="/assets/svg/univ.jpg"/>
+      <img src="/assets/svg/univ.jpg" alt="University Image" />
     </section>
-</main>
+  </main>
+  
