@@ -4,13 +4,14 @@ import { LoginResponse } from '../types/login-response.type';
 import { tap, map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private readonly apiUrl: string = 'http://localhost:8080/api/v1/auth';
+  private readonly apiUrl: string = environment.apiBaseUrl;
 
   constructor(
     private httpClient: HttpClient,
@@ -18,28 +19,8 @@ export class LoginService {
     private toastService: ToastrService
   ) {}
 
-  // Método público: Login
-  login(email: string, password: string) {
-    return this.httpClient
-      .post<LoginResponse>(`${this.apiUrl}/login`, { email, password })
-      .pipe(
-        tap((response) => {
-          this.storeSession(response);
-          this.toastService.success('Login successful!');
-          this.router.navigate(['/dashboard']);
-        }),
-        catchError((error) => {
-          this.toastService.error(
-            'Login failed! Please check your credentials.'
-          );
-          console.error('Error during login:', error);
-          return throwError(() => error);
-        })
-      );
-  }
-
   // Método público: Signup
-  signup(name: string, email: string, password: string) {
+  signup(name: string, email: string, password: string): Observable<LoginResponse> {
     return this.httpClient
       .post<LoginResponse>(`${this.apiUrl}/register`, { name, email, password })
       .pipe(
@@ -49,50 +30,40 @@ export class LoginService {
           this.router.navigate(['/dashboard']);
         }),
         catchError((error) => {
-          this.toastService.error(
-            'Registration failed! Please try again later.'
-          );
+          this.toastService.error('Registration failed! Please try again later.');
           console.error('Error during registration:', error);
           return throwError(() => error);
         })
       );
   }
 
-  getAllUsers() {
-    return this.httpClient.get<any[]>('http://localhost:8080/api/v1/user/find-all-users').pipe(
-      tap((users) => console.log('Fetched Users from API:', users)) // Log dos usuários recebidos
-    );
-  }
-  
-
   // Método público: Busca User ID pelo nome
-  getUserIdByName(name: string) {
-    return this.httpClient.get<any[]>('http://localhost:8080/api/v1/user/find-all-users').pipe(
-      map((users) => {
-        const user = users.find((u) => u.name === name);
-        return user?.id || null; // Retorna somente o ID ou null
-      }),
-      tap((userId) => {
-        console.log('Fetched User ID:', userId);
-      })
-    );
+  getUserIdByName(name: string): Observable<string | null> {
+    return this.httpClient
+      .get<any[]>(`${this.apiUrl}/user/find-all-users`)
+      .pipe(
+        map((users) => {
+          const user = users.find((u) => u.name === name);
+          return user?.id || null;
+        }),
+        tap((userId) => console.log('Fetched User ID:', userId)),
+        catchError((error) => {
+          console.error('Error fetching user ID by name:', error);
+          return throwError(() => error);
+        })
+      );
   }
-  
-  
+
   private storeSession(response: LoginResponse): void {
     const userId = response.userId || response.id;
-  
+
     if (!userId) {
       console.warn('User ID not found in the response. Fetching from the user list...');
       this.getUserIdByName(response.name).subscribe({
-        next: (fetchedUserId: string) => {
+        next: (fetchedUserId) => {
           if (fetchedUserId) {
-            sessionStorage.setItem('userId', fetchedUserId);
-            sessionStorage.setItem('auth-token', response.token);
-            sessionStorage.setItem('dashboardname', response.name);
+            this.saveSessionData(fetchedUserId, response);
             console.log('User ID fetched and saved:', fetchedUserId);
-  
-            // Redireciona somente após salvar o ID
             this.router.navigate(['/dashboard']);
           } else {
             console.error('Failed to fetch user ID.');
@@ -105,13 +76,16 @@ export class LoginService {
         },
       });
     } else {
-      // Se o ID já existir, salva diretamente e redireciona
-      sessionStorage.setItem('userId', userId);
-      sessionStorage.setItem('auth-token', response.token);
-      sessionStorage.setItem('dashboardname', response.name);
+      this.saveSessionData(userId, response);
       console.log('User ID saved:', userId);
       this.router.navigate(['/dashboard']);
     }
+  }
+
+  private saveSessionData(userId: string, response: LoginResponse): void {
+    sessionStorage.setItem('userId', userId);
+    sessionStorage.setItem('auth-token', response.token);
+    sessionStorage.setItem('dashboardname', response.name);
   }
 }
 
