@@ -28,48 +28,45 @@
         font-size: 16px;
         transition: background 0.3s ease;
 
-        i {
-          margin-right: 5px;
-        }
-
         &:hover {
           background: #c0392b;
         }
       }
     }
+
     .start-course-btn {
-      background: linear-gradient(135deg, #105d4d, #1abc9c); // Cor do botão
-      color: #ffffff; // Cor do texto
-      border: none; // Sem borda
-      padding: 12px 20px; // Espaçamento interno
-      font-size: 16px; // Tamanho da fonte
-      font-weight: bold; // Fonte em negrito
-      border-radius: 8px; // Bordas arredondadas
-      cursor: pointer; // Indica que é clicável
-      transition: all 0.3s ease; // Animações suaves
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Sombra
-      text-transform: uppercase; // Texto em maiúsculas
-      display: inline-block; // Para manter o botão com tamanho ajustável ao conteúdo
-      margin: 10px 0; // Espaço em volta do botão
-    
+      background: linear-gradient(135deg, #105d4d, #1abc9c);
+      color: #ffffff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-transform: uppercase;
+      display: inline-block;
+      margin: 10px 0;
+
       &:hover {
-        background: linear-gradient(135deg, #16a085, #1abc9c); // Muda a cor no hover
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); // Aumenta a sombra no hover
-        transform: translateY(-3px); // Efeito de "elevação"
+        background: linear-gradient(135deg, #16a085, #1abc9c);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        transform: translateY(-3px);
       }
-    
+
       &:focus {
-        outline: none; // Remove a borda padrão ao focar
-        box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.4); // Adiciona uma borda de foco
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.4);
       }
-    
+
       &:active {
-        background: linear-gradient(135deg, #1abc9c, #16a085); // Cor ao clicar
-        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15); // Sombra menor ao clicar
-        transform: translateY(0); // Remove a elevação ao clicar
+        background: linear-gradient(135deg, #1abc9c, #16a085);
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+        transform: translateY(0);
       }
     }
-    
+
     .activities,
     .formations {
       margin-bottom: 30px;
@@ -82,57 +79,67 @@
 
       .card-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); // Define o número de colunas
-        gap: 20px; // Espaçamento entre os cards
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); // Corrigido para auto-fill
+        gap: 20px; // Espaçamento uniforme
         margin-top: 10px;
-      
-        .card {
-          background: #fff;
-          border-radius: 5px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-          padding: 20px;
-          text-align: center;
-          height: 350px; // Define altura fixa para os cards
-          display: flex;
-          flex-direction: column;
-          align-items: center; // Centraliza o conteúdo no eixo horizontal
-          justify-content: center; // Centraliza o conteúdo no eixo vertical
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-      
-          &:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-          }
-      
-          img {
-            max-width: 100%; // A largura não ultrapassa o tamanho do card
-            max-height: 150px; // Define uma altura máxima
-            object-fit: contain; // Garante que a imagem seja exibida inteira dentro do limite
-            margin-bottom: 10px;
-          }
-      
-          h3 {
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #34495e;
-          }
-      
-          p {
-            font-size: 14px;
-            color: #7f8c8d;
-          }
+        align-items: start; // Alinhamento consistente para os cartões
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        width: 100%; // Garante que ocupe o espaço da coluna da grade
+        height: 350px; // Define altura fixa
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-      }      
+
+        img {
+          max-width: 100%;
+          max-height: 150px;
+          object-fit: contain;
+          margin-bottom: 10px;
+        }
+
+        h3 {
+          font-size: 16px;
+          margin-bottom: 10px;
+          color: #34495e;
+        }
+
+        p {
+          font-size: 14px;
+          color: #7f8c8d;
+        }
+      }
 
       @media (max-width: 768px) {
-        .card-container .card {
-          flex: 1 1 calc(50% - 20px); /* Two cards per row */
+        .card-container {
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); // Ajuste para telas menores
+        }
+
+        .card {
+          height: 300px; // Altura reduzida para dispositivos menores
         }
       }
 
       @media (max-width: 480px) {
-        .card-container .card {
-          flex: 1 1 100%; /* One card per row */
+        .card-container {
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); // Uma coluna em dispositivos muito pequenos
+        }
+
+        .card {
+          height: 250px; // Altura reduzida ainda mais para telas pequenas
         }
       }
     }
