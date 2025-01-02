@@ -15,6 +15,7 @@ A full-stack application developed using **Angular 17** with **Bootstrap** on th
   - Courses are persisted in a **PostgreSQL** database.
 - **Swagger Documentation:**
   - Fully documented API using **Swagger UI**.
+  - https://universitysystem-7bcbdef4d122.herokuapp.com/swagger-ui/index.html
 - **Modern Technologies:**
   - **Angular 17** with **Bootstrap** for a responsive and interactive frontend.
   - Backend developed in **Spring Boot** with **Java 17**.
@@ -39,14 +40,3 @@ A full-stack application developed using **Angular 17** with **Bootstrap** on th
 
 ### Hosting
 - **Heroku Cloud**
-
----
-
-## Installation and Setup
-
-### Prerequisites
-- **Node.js** and **npm**
-- **Angular CLI**
-- **Java 17**
-- **Maven**
-- **PostgreSQL**
