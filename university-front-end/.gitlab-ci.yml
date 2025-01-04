@@ -5,8 +5,11 @@ stages:          # List of stages for jobs, and their order of execution
   - deploy
 
 variables:
-  SONAR_HOST_URL: "http://192.168.0.10"  # Substitua pelo IP real do servidor SonarQube
+  SONAR_HOST_URL: "http://192.168.0.10:9000"  # Substitua pelo IP real do servidor SonarQube
   SONAR_LOGIN: "${SONAR_TOKEN}"          # O token de autenticação gerado no SonarQube
+  variables:
+  DOCKER_NETWORK_MODE: "host"
+
 
 build-job:       # Job que roda na fase de build
   stage: build
@@ -17,6 +20,7 @@ build-job:       # Job que roda na fase de build
 unit-test-job:   # Job para rodar testes
   stage: test
   script:
+    - sonar-scanner -Dsonar.projectKey="my_project_key" -Dsonar.sources="./src" -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.login="${SONAR_LOGIN}" -Dsonar.ws.timeout=60 -X
     - echo "Running unit tests... This will take about 60 seconds."
     - sleep 60
     - echo "Code coverage is 90%"
