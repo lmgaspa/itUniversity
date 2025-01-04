@@ -1,49 +1,31 @@
-stages:          # List of stages for jobs, and their order of execution
+stages:
   - build
   - test
   - sonarqube
   - deploy
 
 variables:
-  SONAR_HOST_URL: "http://192.168.0.10:9000"  # Substitua pelo IP real do servidor SonarQube
-  SONAR_LOGIN: "${SONAR_TOKEN}"          # O token de autenticação gerado no SonarQube
-  variables:
+  SONAR_HOST_URL: "http://192.168.0.101:9000"  # IP correto com porta
+  SONAR_LOGIN: "${SONAR_TOKEN}"                # Token de autenticação
   DOCKER_NETWORK_MODE: "host"
 
-
-build-job:       # Job que roda na fase de build
+build-job:
   stage: build
   script:
     - echo "Compiling the code..."
     - echo "Compile complete."
 
-unit-test-job:   # Job para rodar testes
+unit-test-job:
   stage: test
   script:
-    - sonar-scanner -Dsonar.projectKey="my_project_key" -Dsonar.sources="./src" -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.login="${SONAR_LOGIN}" -Dsonar.ws.timeout=60 -X
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
-
-lint-test-job:
-  stage: test
-  script:
-    - echo "Linting code... This will take about 10 seconds."
+    - echo "Running unit tests..."
     - sleep 10
-    - echo "No lint issues found."
+    - echo "Tests complete."
 
 sonarqube-job:
   stage: sonarqube
   image: sonarsource/sonar-scanner-cli:latest
   script:
-    - sonar-scanner -Dsonar.projectKey="my_project_key" -Dsonar.sources="./src" -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.login="${SONAR_LOGIN}" -Dsonar.language="java"
+    - sonar-scanner -Dsonar.projectKey="my_project_key" -Dsonar.sources="./src" -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.login="${SONAR_LOGIN}" -Dsonar.ws.timeout=120 -X
   only:
     - main
-
-
-deploy-job:
-  stage: deploy
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
