@@ -1,7 +1,17 @@
 stages:
   - build
+  - test
+  - sonarqube
+  - deploy
+
+variables:
+  BASE_DIR: "${CI_PROJECT_DIR}/University-Front-End"
+  SONAR_HOST_URL: "http://192.168.0.101:9000"
+  SONAR_LOGIN: "${SONAR_TOKEN}"
 
 build-job:
   stage: build
   script:
-    - echo "Pipeline executada com sucesso!"
+    - cd ${BASE_DIR}
+    - npm install
+    - npm run build
