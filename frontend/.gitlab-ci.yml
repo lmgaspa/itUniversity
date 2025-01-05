@@ -11,6 +11,8 @@ variables:
 
 build-job:
   stage: build
+  tags:
+    - build  # A tag deve corresponder à tag definida no runner
   script:
     - cd ${BASE_DIR}
     - npm install
