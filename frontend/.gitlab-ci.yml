@@ -11,6 +11,8 @@ variables:
 
 build-job:
   stage: build
+  tags:
+    - shell  # Adicionando a tag para usar o runner shell
   script:
     - cd ${BASE_DIR}
     - npm install
