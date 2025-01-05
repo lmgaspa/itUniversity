@@ -5,14 +5,20 @@ stages:
   - deploy
 
 variables:
-  BASE_DIR: "${CI_PROJECT_DIR}/frontend"
+  BASE_DIR: "${CI_PROJECT_DIR}/frontend"  # Altere o caminho conforme o seu projeto
   SONAR_HOST_URL: "http://192.168.0.101:9000"
-  SONAR_LOGIN: "${SONAR_TOKEN}"
+  SONAR_LOGIN: "${SONAR_TOKEN}"  # Usando a variável configurada no GitLab
 
 build-job:
   stage: build
   tags:
-    - build  # A tag deve corresponder à tag definida no runner
+    - build  # A tag deve corresponder ao runner configurado
   script:
+    - cd ${BASE_DIR}
     - npm install
     - npm run build
+
+sonarqube-job:
+  stage: sonarqube
+  script:
+    - sonar-scanner -Dsonar.projectKey=frontend -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_LOGIN}
