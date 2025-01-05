@@ -11,14 +11,13 @@ variables:
 
 build-job:
   stage: build
-  tags:
-    - build  # A tag deve corresponder ao runner configurado
+  image: node:lts 
   script:
-    - cd ${BASE_DIR}
     - npm install
     - npm run build
 
 sonarqube-job:
   stage: sonarqube
   script:
+    - cd ${BASE_DIR}
     - sonar-scanner -Dsonar.projectKey=frontend -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_LOGIN}
