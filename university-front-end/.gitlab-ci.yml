@@ -1,12 +1,17 @@
-sonarqube-job:
-  stage: sonarqube
-  image: sonarsource/sonar-scanner-cli:latest
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay2
+stages:
+  - build
+  - test
+  - sonarqube
+  - deploy
+
+variables:
+  BASE_DIR: "${CI_PROJECT_DIR}/University-Front-End"
+  SONAR_HOST_URL: "http://192.168.0.101:9000"
+  SONAR_LOGIN: "${SONAR_TOKEN}"
+
+build-job:
+  stage: build
   script:
-    - echo "Running SonarQube analysis..."
-    - sonar-scanner -Dsonar.projectKey="my_project_key" -Dsonar.sources="./src" -Dsonar.host.url="http://host.docker.internal:9000" -Dsonar.login="${SONAR_TOKEN}" -Dsonar.ws.timeout=120 -X
-  only:
-    - main
+    - cd ${BASE_DIR}
+    - npm install
+    - npm run build
