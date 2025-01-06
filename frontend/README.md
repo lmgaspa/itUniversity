@@ -6,7 +6,7 @@ Registration and Login:
 Role-based authentication with Admin and User roles.
 Implemented using Spring Security and JWT.
 Course Management:
-View, select, and enroll in a variety of IT courses.
+View, select, and enroll in a variety of IT courses!
 Courses include topics like Angular, Node.js, Vue.js, and more.
 Courses are persisted in a PostgreSQL database.
 Swagger Documentation:
