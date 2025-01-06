@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # IT University System
 
 A full-stack application developed using **Angular 17** with **Bootstrap** on the frontend and **Spring Boot** on the backend. The application is hosted on **Heroku Cloud** and uses **PostgreSQL** as its database. This system provides user registration and login with role-based access using **Spring Security**. It also enables users to enroll in multiple IT courses, with all data persisted using **Hibernate**.
