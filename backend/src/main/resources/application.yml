@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: universitysystem
+
+  datasource:
+    url: jdbc:postgresql://cc0gj7hsrh0ht8.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dc4rssldoktl1m
+    username: uc68c5g21jl5gt
+    password: {DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+api:
+  security:
+    token:
+      secret: my-secret-key
+
+server:
+  port: 8080

@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    environment {
+        MAVEN_HOME = tool name: 'Maven', type: 'maven'
+        JAVA_HOME = tool name: 'JDK17', type: 'jdk'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://seu-repositorio.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh "${MAVEN_HOME}/bin/mvn clean package -DskipTests"
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh "${MAVEN_HOME}/bin/mvn test"
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploy Step (Customizable)'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and test succeeded!'
+        }
+        failure {
+            echo 'Build or test failed!'
+        }
+    }
+}
