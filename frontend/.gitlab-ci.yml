@@ -16,21 +16,19 @@ setup:
 
 test:
   stage: test
-  image: node:18 # Garantindo que a versão LTS seja usada
+  image: node:18 # versão LTS do Node.js
   before_script:
-    # Instalar pacotes do sistema necessários para executar o navegador em headless
+    # Instalar pacotes necessários do sistema
     - apt-get update && apt-get install -y chromium
   script:
-    # Instala dependências de desenvolvimento necessárias
+    # Instalar as dependências do projeto
     - npm install
-    - npm install --save-dev @angular/cli @angular-devkit/build-angular karma karma-chrome-launcher
-    # Executa os testes sem abrir interface gráfica
+    # Executar os testes
     - npm run test -- --watch=false --browsers=ChromeHeadless
   cache:
     paths:
       - node_modules/
       - .angular/cache/
-      - .sonar/cache
 
 sonarcloud-check:
   stage: sonarcloud-check
