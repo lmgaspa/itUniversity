@@ -1,44 +1,23 @@
 stages:
-  - merge
-  - build
+  - setup
+  - test
+  - sonarcloud-check
 
-# Job que deve rodar apenas em pipelines agendados
-scheduled_job:
-  stage: merge
-  image: docker:24.0.6
-  services:
-    - docker:dind
-  before_script:
-    - apk add --no-cache git curl
-    - git config user.name "username"
-    - git config user.email "email"
-  script:
-    - git fetch
-    - git checkout master
-    - 'git merge --no-ff --no-commit origin/development || { 
-        echo "CONFLICTS DETECTED !!! CREATING MERGE REQUEST..."; 
-        git merge --abort; 
-        CONFLICTS=$(git ls-files -u | wc -l); 
-        if [ $CONFLICTS -gt 0 ]; then 
-          echo "ABORTING MERGE !!!"; 
-          exit 1; 
-        fi; 
-        curl --request POST --header "PRIVATE-TOKEN: $PERSONAL_ACCESS_TOKEN" --header "Content-Type: application/json" --data "{\"source_branch\": \"development\", \"target_branch\": \"master\", \"title\": \"MERGE development INTO master ( SCHEDULED JOB ))\", \"remove_source_branch\": false}" "https://<gitlab-host>/api/v4/projects/<project-id>/merge_requests"; 
-        exit 1; 
-      }'
-    - git commit -m "MERGE development INTO master"
-    - git push https://gitlab-ci-token:$PERSONAL_ACCESS_TOKEN@<gitlab-host>/<group-name>/<project-name>.git master
-    - echo "MERGE SUCCESSFUL"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED == "TRUE"' # Apenas quando for pipeline agendado
-  tags:
-    - docker
-
-# Outros jobs que NÃO devem rodar quando for pipeline agendado
-regular_job:
-  stage: build
+setup:
+  stage: setup
   image: node:18
   script:
-    - echo "This is a regular job!"
-  rules:
-    - if: '$SCHEDULED != "TRUE"' # Não executa em pipelines agendados
+    - npm install
+
+test:
+  stage: test
+  image: node:18
+  before_script:
+    - apt-get update && apt-get install -y chromium
+  script:
+    - npm install
+    - npm run test -- --watch=false --browsers=ChromeHeadless
+  cache:
+    paths:
+      - node_modules/
+      - .angular/cache/
