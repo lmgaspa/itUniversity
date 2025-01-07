@@ -1,5 +1,6 @@
 stages:
   - setup
+  - test
   - sonarcloud-check
 
 # Optional global variables to ensure full repository history is fetched and cache is stored locally.
@@ -13,21 +14,24 @@ setup:
   script:
     - npm install
 
+test:
+  stage: test
+  image: node:latest
+  script:
+    # Instala as dependências de desenvolvimento necessárias
+    - npm install --save-dev @angular/cli @angular-devkit/build-angular karma karma-chrome-launcher
+    # Executa os testes
+    - npm run test -- --watch=false --browsers=ChromeHeadless
 sonarcloud-check:
   stage: sonarcloud-check
-  # Using the official SonarScanner CLI image
   image:
     name: sonarsource/sonar-scanner-cli:latest
-    # Overriding the default entrypoint prevents shell issues in some CI environments
     entrypoint: [""]
   cache:
     key: "${CI_JOB_NAME}"
     paths:
       - .sonar/cache
   script:
-    # Pass the SonarCloud host URL and token if you want to force them here
-    # (otherwise, ensure they're defined in sonar-project.properties
-    # and that the environment variables SONAR_HOST_URL and SONAR_TOKEN are correctly set in GitLab)
     - sonar-scanner -Dsonar.host.url="$SONAR_HOST_URL" -Dsonar.login="$SONAR_TOKEN"
   only:
     - merge_requests
