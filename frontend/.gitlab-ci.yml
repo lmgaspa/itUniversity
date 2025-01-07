@@ -20,7 +20,6 @@ test:
     - apt-get update && apt-get install -y chromium
   script:
     - npm install
-    - npm install --save-dev @angular/cli @angular-devkit/build-angular karma karma-chrome-launcher
     - npm run test -- --watch=false --browsers=ChromeHeadless
   cache:
     paths:
