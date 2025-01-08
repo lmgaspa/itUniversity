@@ -16,7 +16,8 @@ setup:
     paths:
       - node_modules/
   script:
-    - npm install
+    - echo "Installing dependencies..."
+    - npm ci # Faster and more efficient than npm install
 
 test:
   stage: test
@@ -24,16 +25,21 @@ test:
   before_script:
     - apt-get update && apt-get install -y --no-install-recommends chromium
     - export CHROME_BIN="/usr/bin/chromium"
+    - echo "Installing Angular CLI globally..."
     - npm install -g @angular/cli
   script:
-    - echo "Executando testes..."
-    - npm install
-    - npx ng test --watch=false --browsers=ChromeHeadless --disable-gpu --no-sandbox --disable-software-rasterizer
+    - echo "Running tests..."
+    - npx ng test --watch=false --browsers=ChromeHeadless --disable-gpu --no-sandbox --disable-software-rasterizer --code-coverage
   cache:
     key: npm-cache-${CI_COMMIT_REF_SLUG}
     paths:
       - node_modules/
       - .angular/cache/
+  artifacts:
+    paths:
+      - coverage/
+      - .angular/cache/
+    expire_in: 1 day
 
 sonarcloud-check:
   stage: sonarcloud-check
@@ -45,9 +51,20 @@ sonarcloud-check:
     paths:
       - .sonar/cache/
   script:
-    - echo "Executando análise do SonarCloud..."
-    - sonar-scanner -Dsonar.host.url="$SONAR_HOST_URL" -Dsonar.login="$SONAR_TOKEN"
+    - echo "Running SonarCloud analysis..."
+    - sonar-scanner \
+        -Dsonar.projectKey="$SONAR_PROJECT_KEY" \
+        -Dsonar.organization="$SONAR_ORG_KEY" \
+        -Dsonar.host.url="$SONAR_HOST_URL" \
+        -Dsonar.login="$SONAR_TOKEN"
   only:
-    - merge_requests
-    - main
-    - develop
+    refs:
+      - merge_requests
+      - main
+      - develop
+
+artifacts:
+  paths:
+    - coverage/
+    - reports/
+  expire_in: 1 day
