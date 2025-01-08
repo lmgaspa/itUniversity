@@ -28,7 +28,7 @@ test:
   script:
     - echo "Executando testes..."
     - npm install
-    - ng test 
+    - npx ng test --watch=false --browsers=ChromeHeadless --disable-gpu --no-sandbox --disable-software-rasterizer
   cache:
     key: npm-cache-${CI_COMMIT_REF_SLUG}
     paths:
