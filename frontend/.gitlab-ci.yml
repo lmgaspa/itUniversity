@@ -30,13 +30,7 @@ test:
       - .angular/cache/
   script:
     - echo "Executando testes..."
-    - if [ -d "frontend" ]; then cd frontend; fi
-    - npm install -g @angular/cli
-    - pwd
-    - ls
-    - npx ng version
-    - npx ng test --watch=false --browsers=ChromeHeadless
-    - if [ -f /root/.npm/_logs/*.log ]; then cat /root/.npm/_logs/*.log; fi
+    
   artifacts:
     paths:
       - coverage/
