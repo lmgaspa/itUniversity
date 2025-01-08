@@ -14,5 +14,6 @@ test:
   image: node:18
   script:
     - export PATH="./node_modules/.bin:$PATH"
-    - npm ci
-    - npx ng test --watch=false --browsers=ChromeHeadless
+    - chmod +x ./node_modules/.bin/ng
+    - ./node_modules/.bin/ng version
+    - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless
