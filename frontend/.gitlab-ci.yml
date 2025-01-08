@@ -7,18 +7,21 @@ variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
   GIT_DEPTH: "0"
 
-# Instala dependências
 setup:
   stage: setup
   image: node:18
   cache:
-    key: npm-cache
+    key: npm-cache-${CI_COMMIT_REF_SLUG}
     paths:
       - node_modules/
   script:
+    - echo "Diretório atual:"
+    - pwd
+    - echo "Listando arquivos:"
+    - ls -al
+    - if [ -f "frontend/package.json" ]; then cd frontend; fi
     - npm install
 
-# Executa testes
 test:
   stage: test
   image: node:18
@@ -26,14 +29,15 @@ test:
     - apt-get update && apt-get install -y --no-install-recommends chromium
   script:
     - echo "Executando testes..."
-    - npm run test -- --watch=false --browsers=ChromeHeadless
+    - if [ -f "frontend/package.json" ]; then cd frontend; fi
+    - npm install --save-dev @angular/cli
+    - npx ng test --watch=false --browsers=ChromeHeadless
   cache:
-    key: npm-cache
+    key: npm-cache-${CI_COMMIT_REF_SLUG}
     paths:
       - node_modules/
       - .angular/cache/
 
-# Análise do SonarCloud
 sonarcloud-check:
   stage: sonarcloud-check
   image:
@@ -45,6 +49,7 @@ sonarcloud-check:
       - .sonar/cache/
   script:
     - echo "Executando análise do SonarCloud..."
+    - if [ -f "frontend/package.json" ]; then cd frontend; fi
     - sonar-scanner -Dsonar.host.url="$SONAR_HOST_URL" -Dsonar.login="$SONAR_TOKEN"
   only:
     - merge_requests
