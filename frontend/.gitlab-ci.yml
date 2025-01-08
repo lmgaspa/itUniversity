@@ -18,7 +18,7 @@ test:
   stage: test
   script:
     - npm ci # Reinstalação segura para garantir ambiente limpo
-    - npm run test -- --watch=false --browsers=ChromeHeadless --coverage
+    - npm run test -- --watch=false --browsers=ChromeHeadlessCI --coverage
   variables:
     CHROME_BIN: "/usr/bin/google-chrome-stable" # Define o caminho do Chrome para testes headless
   dependencies:

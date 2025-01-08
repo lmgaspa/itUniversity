@@ -17,6 +17,7 @@ module.exports = function(config) {
       dir: 'reports',
       subdir: '.',
       reporters: [
+        { type: 'html' },
         { type: 'text-summary' },  // Relatório no terminal (stdout)
         { type: 'cobertura', file: 'ng-coverage.cobertura.xml' },  // GitLab coverage
         { type: 'lcovonly', file: 'ng-coverage.lcov.info' },  // SonarQube
@@ -32,7 +33,7 @@ module.exports = function(config) {
       outputFile: 'ng-test.sonar.xml',
     },
     reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'sonarqubeExecution'],
-    browsers: ['ChromeHeadless'],  // Executa em modo headless
+    browsers: ['Chrome', "ChromeHeadless"],  // Executa em modo headless
     singleRun: true,  // Executa os testes e fecha
   });
 };
