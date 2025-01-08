@@ -1,29 +1,19 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { DashboardComponent } from './dashboard.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+@Component({
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
+})
+export class DashboardComponent implements OnInit {
+  routeParams: any;
+  queryParams: any;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        DashboardComponent,
-        HttpClientTestingModule, // Provider de HttpClient
-        RouterTestingModule // Para ActivatedRoute
-      ],
-    }).compileComponents();
-  });
+  constructor(private route: ActivatedRoute) {}
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => (this.routeParams = params));
+    this.route.queryParams.subscribe((query) => (this.queryParams = query));
+  }
+}

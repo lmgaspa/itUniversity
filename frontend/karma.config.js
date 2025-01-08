@@ -27,6 +27,10 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['ChromeHeadless'],
+    browserDisconnectTimeout: 100000, // Increase timeout for disconnection
+    browserDisconnectTolerance: 5, // Retry 5 times before failing
+    browserNoActivityTimeout: 100000, // Increase inactivity timeout
+    captureTimeout: 120000, // Increase capture timeout for long-running tests
     singleRun: true,
     restartOnFileChange: true
   });

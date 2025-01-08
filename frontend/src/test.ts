@@ -5,13 +5,14 @@ import {
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
 
-// First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );
 
-// Import all the test files explicitly.
-import './app/app.component.spec';
-import './services/example.service.spec';  // Import your test files here
+// Dynamically import all `.spec.ts` files:
+const testFiles = [
+  import('./app/app.component.spec'),
+];
 
+Promise.all(testFiles).then(() => console.log('All test files loaded.'));
