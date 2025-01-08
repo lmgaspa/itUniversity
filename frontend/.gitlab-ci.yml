@@ -20,6 +20,7 @@ ng-build:
 
 ng-test:
   stage: test
+  image: registry.hub.docker.com/trion/ng-cli-karma:latest
   script:
     - npm ci
     - ng test --code-coverage --reporters junit --watch=false --no-progress
