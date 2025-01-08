@@ -3,35 +3,20 @@ stages:
   - test
   - sonarcloud-check
 
-variables:
-  CI_COMMIT_SHORT_SHA: "${CI_COMMIT_SHA:0:8}"
-
 setup:
   stage: setup
   image: node:latest
   script:
-    - npm ci # Instalação com cache otimizado
-  cache:
-    key: "npm-${CI_COMMIT_SHORT_SHA}"
-    paths:
-      - node_modules/
+    - npm install
 
 test:
   stage: test
   image: node:latest
   script:
-    - npm ci
-    - npm run test -- --watch=false --single-run --browsers=ChromeHeadless
+    - npm install
+    - npm run test -- --coverage
   artifacts:
-    when: always
     paths:
-      - coverage/
-    reports:
-      junit: coverage/junit.xml # Relatório para Karma (se configurado no `karma.conf.js`)
-  cache:
-    key: "karma-coverage-${CI_COMMIT_SHORT_SHA}"
-    paths:
-      - node_modules/
       - coverage/
 
 sonarcloud-check:
@@ -40,7 +25,7 @@ sonarcloud-check:
   script:
     - sonar-scanner
   cache:
-    key: "sonar-${CI_COMMIT_SHORT_SHA}"
+    key: "${CI_JOB_NAME}"
     paths:
       - .sonar/cache
   only:
