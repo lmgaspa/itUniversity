@@ -30,9 +30,17 @@ test:
       - .angular/cache/
   script:
     - echo "Executando testes..."
-    
+    - if [ -d "frontend" ]; then cd frontend; fi
+    - npm install -g @angular/cli
+    - pwd
+    - ls
+    - npx ng version
+    - npx ng test --watch=false --browsers=ChromeHeadless
+    - if [ -f /root/.npm/_logs/*.log ]; then cp /root/.npm/_logs/*.log ./npm-error.log; fi
+    - if [ -f /root/.npm/_logs/*.log ]; then while read line; do echo "$line"; done < /root/.npm/_logs/*.log; fi
   artifacts:
     paths:
       - coverage/
       - .angular/cache/
+      - npm-error.log
     expire_in: 1 day
