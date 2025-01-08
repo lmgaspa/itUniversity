@@ -43,6 +43,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "karma-junit-reporter": "^2.0.1",
     "karma-phantomjs-launcher": "^1.0.4",
+    "karma-sonarqube-execution-reporter": "^0.1.1",
     "karma-sonarqube-reporter": "^1.4.0",
     "puppeteer": "^23.11.1",
     "sonarqube-scanner": "^4.2.6",

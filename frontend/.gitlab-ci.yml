@@ -1,44 +1,35 @@
 stages:
-    - install
-    - test
-    - build
-    - deploy
+  - lint
+  - build
+  - test
 
-install_dependencies:
-    stage: install
-    only:
-        - master
-        - tag
-    script : 
-        - echo "Install job only on master and tag"
+variables:
+  NG_CLI_IMAGE: "registry.hub.docker.com/trion/ng-cli-karma:latest"
 
-lint:
-    stage: test
-    script:
-        - echo "Linting job is here BOY"
+ng-lint:
+  stage: lint
+  script:
+    - npm ci
+    - ng lint --force
 
-test-karma:
-    variables:
-        CI_DEBUG_TRACE: "true"
-    image : trion/ng-cli-karma
-    stage: test
-    script:
-        - echo "Unit testing our angular app with karma baby"
-        - npm ci
-        - node_modules/@angular/cli/bin/ng.js test --browsers=ChromeHeadless --watch=false
+ng-build:
+  stage: build
+  script:
+    - npm ci
+    - ng build --configuration=production
 
-build:
-    stage: build
-    only:
-        - master
-        - tag
-    script:
-        - "I'm gonna build your app just for you, it will be 5$ ...."
+ng-test:
+  stage: test
+  script:
+    - npm ci
+    - ng test --code-coverage --reporters junit --watch=false --no-progress
+  artifacts:
+    reports:
+      junit: reports/ng-test.xunit.xml
+    paths:
+      - reports/
 
-deploy:
-    stage: deploy
-    only:
-        - master
-        - tag
-    script:
-        - "I'm not like build job, i'll deploy your app for free, I know you are broke"
+sonarqube:
+  stage: test
+  script:
+    - sonar-scanner
