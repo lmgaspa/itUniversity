@@ -5,21 +5,21 @@ stages:
 
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
-  GIT_DEPTH: "0"
+  GIT_DEPTH: "0"  # Ensure full history for Sonar analysis
   CHROME_BIN: "/usr/bin/chromium"
 
 setup:
   stage: setup
   image: node:18
   cache:
-    key: npm-cache-${CI_COMMIT_REF_SLUG}
+    key: "${CI_COMMIT_REF_SLUG}-npm-cache"
     paths:
       - node_modules/
       - .angular/cache/
   script:
     - echo "Installing dependencies and updating Chromium..."
-    - apt-get update && apt-get install -y --no-install-recommends chromium
-    - npm ci # Faster than npm install
+    - apt-get update -qq && apt-get install -y --no-install-recommends chromium
+    - npm ci  # Faster dependency install
 
 test:
   stage: test
@@ -28,7 +28,7 @@ test:
     - echo "Running tests with headless Chrome..."
     - npx ng test --watch=false --browsers=ChromeHeadless --disable-gpu --no-sandbox --disable-software-rasterizer --code-coverage
   cache:
-    key: npm-cache-${CI_COMMIT_REF_SLUG}
+    key: "${CI_COMMIT_REF_SLUG}-npm-cache"
     paths:
       - node_modules/
       - .angular/cache/
@@ -44,7 +44,7 @@ sonarcloud-check:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   cache:
-    key: sonar-cache
+    key: "sonar-cache"
     paths:
       - .sonar/cache/
   script:
@@ -53,6 +53,11 @@ sonarcloud-check:
         -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
         -Dsonar.organization="${SONAR_ORG_KEY}" \
         -Dsonar.host.url="${SONAR_HOST_URL}" \
+        -Dsonar.sources="src/app" \
+        -Dsonar.tests="src/app" \
+        -Dsonar.javascript.lcov.reportPaths="coverage/lcov.info" \
+        -Dsonar.testExecutionReportPaths="reports/sonarqube_report.xml" \
+        -Dsonar.sourceEncoding="UTF-8" \
         -Dsonar.login="${SONAR_TOKEN}"
   only:
     refs:
