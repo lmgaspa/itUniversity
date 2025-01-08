@@ -1,34 +1,44 @@
 stages:
-  - setup
-  - test
-  - sonarcloud-check
+    - install
+    - test
+    - build
+    - deploy
 
-setup:
-  stage: setup
-  image: node:latest
-  script:
-    - npm install
+install_dependencies:
+    stage: install
+    only:
+        - master
+        - tag
+    script : 
+        - echo "Install job only on master and tag"
 
-test:
-  stage: test
-  image: node:latest
-  script:
-    - npm install
-    - npm run test -- --coverage
-  artifacts:
-    paths:
-      - coverage/
+lint:
+    stage: test
+    script:
+        - echo "Linting job is here BOY"
 
-sonarcloud-check:
-  stage: sonarcloud-check
-  image: sonarsource/sonar-scanner-cli:latest
-  script:
-    - sonar-scanner
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
-  only:
-    - merge_requests
-    - main
-    - develop
+test-karma:
+    variables:
+        CI_DEBUG_TRACE: "true"
+    image : trion/ng-cli-karma
+    stage: test
+    script:
+        - echo "Unit testing our angular app with karma baby"
+        - npm ci
+        - node_modules/@angular/cli/bin/ng.js test --browsers=ChromeHeadless --watch=false
+
+build:
+    stage: build
+    only:
+        - master
+        - tag
+    script:
+        - "I'm gonna build your app just for you, it will be 5$ ...."
+
+deploy:
+    stage: deploy
+    only:
+        - master
+        - tag
+    script:
+        - "I'm not like build job, i'll deploy your app for free, I know you are broke"
