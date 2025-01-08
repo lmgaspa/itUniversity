@@ -1,19 +1,34 @@
 stages:
   - setup
   - test
+  - sonarcloud-check
 
 setup:
   stage: setup
-  image: node:18
+  image: node:latest
   script:
-    - apt-get update -qq && apt-get install -y --no-install-recommends chromium
-    - npm ci
+    - npm install
 
 test:
   stage: test
-  image: node:18
+  image: node:latest
   script:
-    - export CHROME_BIN="/usr/bin/chromium"
-    - echo "Verificando Angular CLI:"
-    - npx ng version || npm install --save-dev @angular/cli
-    - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless
+    - npm install
+    - npm run test -- --coverage
+  artifacts:
+    paths:
+      - coverage/
+
+sonarcloud-check:
+  stage: sonarcloud-check
+  image: sonarsource/sonar-scanner-cli:latest
+  script:
+    - sonar-scanner
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  only:
+    - merge_requests
+    - main
+    - develop
