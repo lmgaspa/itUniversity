@@ -1,0 +1,54 @@
+stages:
+  - setup
+  - test
+  - sonarcloud-check
+
+variables:
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+  GIT_DEPTH: "0"
+  CHROME_BIN: "/usr/bin/chromium"
+
+setup:
+  stage: setup
+  image: node:18
+  cache:
+    key: npm-cache-${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+  script:
+    - if [ -f "frontend/package.json" ]; then cd frontend; fi
+    - npm install
+
+test:
+  stage: test
+  image: node:18
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends chromium
+    - export CHROME_BIN="/usr/bin/chromium"
+  script:
+    - echo "Executando testes..."
+    - if [ -f "frontend/package.json" ]; then cd frontend; fi
+    - npx ng test --watch=false --browsers=ChromeHeadless
+  cache:
+    key: npm-cache-${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+      - .angular/cache/
+
+sonarcloud-check:
+  stage: sonarcloud-check
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  cache:
+    key: sonar-cache
+    paths:
+      - .sonar/cache/
+  script:
+    - echo "Executando análise do SonarCloud..."
+    - if [ -f "frontend/package.json" ]; then cd frontend; fi
+    - sonar-scanner -Dsonar.host.url="$SONAR_HOST_URL" -Dsonar.login="$SONAR_TOKEN"
+  only:
+    - merge_requests
+    - main
+    - develop
