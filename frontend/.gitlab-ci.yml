@@ -1,21 +1,72 @@
-image: node:16.14.2-bullseye
-
 stages:
   - setup
   - test
+  - sonarcloud-check
 
-install:
+variables:
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+  GIT_DEPTH: "0"  # Ensure full history for Sonar analysis
+  CHROME_BIN: "/usr/bin/chromium-browser"
+
+setup:
   stage: setup
+  image: node:18
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-npm-cache"
+    paths:
+      - node_modules/
+      - .angular/cache/
   script:
-    - npm ci
+    - echo "Installing dependencies and updating Chromium..."
+    - apt-get update -qq && apt-get install -y --no-install-recommends chromium
+    - npm ci  # Install dependencies using package-lock.json
 
-unit test:
+test:
   stage: test
-  before_script:
-    - apt-get update
-    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    - apt install -y ./google-chrome*.deb;
-    - export CHROME_BIN=/usr/bin/google-chrome
+  image: node:18
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-npm-cache"
+    paths:
+      - node_modules/
+      - .angular/cache/
   script:
-    - npm ci
-    - npm run test -- --no-watch --browsers=ChromeHeadlessCI
+    - echo "Running tests with headless Chrome..."
+    - npx ng test --watch=false --browsers=ChromeHeadless --code-coverage
+  artifacts:
+    paths:
+      - coverage/  # Store coverage reports
+      - .angular/cache/
+    expire_in: 1 day
+
+sonarcloud-check:
+  stage: sonarcloud-check
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  cache:
+    key: "sonar-cache"
+    paths:
+      - .sonar/cache/
+  dependencies:
+    - test  # Ensures artifacts from 'test' stage (coverage) are used
+  script:
+    - echo "Running SonarCloud analysis..."
+    - sonar-scanner \
+        -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
+        -Dsonar.organization="${SONAR_ORG_KEY}" \
+        -Dsonar.host.url="${SONAR_HOST_URL}" \
+        -Dsonar.sources="src/app" \
+        -Dsonar.tests="src/app" \
+        -Dsonar.javascript.lcov.reportPaths="coverage/lcov.info" \
+        -Dsonar.sourceEncoding="UTF-8" \
+        -Dsonar.login="${SONAR_TOKEN}"
+  only:
+    refs:
+      - merge_requests
+      - main
+      - develop
+  artifacts:
+    when: always
+    paths:
+      - reports/
+    expire_in: 1 day
