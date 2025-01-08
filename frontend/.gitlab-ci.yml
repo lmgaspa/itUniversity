@@ -1,36 +1,50 @@
+image: node:latest
+
 stages:
-  - lint
-  - build
+  - setup
   - test
+  - sonarcloud-check
 
-variables:
-  NG_CLI_IMAGE: "registry.hub.docker.com/trion/ng-cli-karma:latest"
-
-ng-lint:
-  stage: lint
+setup:
+  stage: setup
   script:
-    - npm ci
-    - ng lint --force
-
-ng-build:
-  stage: build
-  script:
-    - npm ci
-    - ng build --configuration=production
-
-ng-test:
-  stage: test
-  image: registry.hub.docker.com/trion/ng-cli-karma:latest
-  script:
-    - npm ci
-    - ng test --code-coverage --reporters junit --watch=false --no-progress
-  artifacts:
-    reports:
-      junit: reports/ng-test.xunit.xml
+    - npm ci # Instala dependências com cache consistente
+  cache:
+    key: "npm-cache-${CI_COMMIT_REF_SLUG}"
     paths:
-      - reports/
+      - node_modules/
 
-sonarqube:
+test:
   stage: test
+  script:
+    - npm ci # Reinstalação segura para garantir ambiente limpo
+    - npm run test -- --watch=false --browsers=ChromeHeadless --coverage
+  variables:
+    CHROME_BIN: "/usr/bin/google-chrome-stable" # Define o caminho do Chrome para testes headless
+  dependencies:
+    - setup
+  artifacts:
+    when: always
+    paths:
+      - coverage/
+    reports:
+      junit: coverage/junit.xml # Relatório para SonarCloud
+  cache:
+    key: "test-cache-${CI_COMMIT_REF_SLUG}"
+    paths:
+      - node_modules/
+      - coverage/
+
+sonarcloud-check:
+  stage: sonarcloud-check
+  image: sonarsource/sonar-scanner-cli:latest
   script:
     - sonar-scanner
+  cache:
+    key: "sonar-cache-${CI_COMMIT_REF_SLUG}"
+    paths:
+      - .sonar/cache
+  only:
+    - merge_requests
+    - main
+    - develop
