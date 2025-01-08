@@ -16,7 +16,6 @@ setup:
     paths:
       - node_modules/
   script:
-    - if [ -f "frontend/package.json" ]; then cd frontend; fi
     - npm install
 
 test:
@@ -25,9 +24,10 @@ test:
   before_script:
     - apt-get update && apt-get install -y --no-install-recommends chromium
     - export CHROME_BIN="/usr/bin/chromium"
+    - npm install -g @angular/cli
   script:
     - echo "Executando testes..."
-    - if [ -f "frontend/package.json" ]; then cd frontend; fi
+    - npm install
     - npx ng test --watch=false --browsers=ChromeHeadless
   cache:
     key: npm-cache-${CI_COMMIT_REF_SLUG}
@@ -46,7 +46,6 @@ sonarcloud-check:
       - .sonar/cache/
   script:
     - echo "Executando análise do SonarCloud..."
-    - if [ -f "frontend/package.json" ]; then cd frontend; fi
     - sonar-scanner -Dsonar.host.url="$SONAR_HOST_URL" -Dsonar.login="$SONAR_TOKEN"
   only:
     - merge_requests
