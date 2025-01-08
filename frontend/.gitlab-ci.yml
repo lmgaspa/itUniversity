@@ -41,3 +41,7 @@ sonarcloud-check:
     - merge_requests
     - main
     - develop
+job1:
+  stage: test
+  script:
+    - echo "Hello, GitLab Pipeline!"
