@@ -28,7 +28,7 @@ test:
   script:
     - echo "Executando testes..."
     - npm install
-    - ng test --watch=false
+    - ng test --watch=false --browsers=ChromeHeadless
   cache:
     key: npm-cache-${CI_COMMIT_REF_SLUG}
     paths:
