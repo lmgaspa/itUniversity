@@ -36,6 +36,7 @@ test:
     - ls
     - npx ng version
     - npx ng test --watch=false --browsers=ChromeHeadless
+    - if [ -f /root/.npm/_logs/*.log ]; then cat /root/.npm/_logs/*.log; fi
   artifacts:
     paths:
       - coverage/
