@@ -13,7 +13,7 @@ test:
   stage: test
   image: node:18
   script:
-    - export PATH="./node_modules/.bin:$PATH"
-    - chmod +x ./node_modules/.bin/ng
-    - ./node_modules/.bin/ng version
+    - export CHROME_BIN="/usr/bin/chromium"
+    - echo "Verificando Angular CLI:"
+    - npx ng version || npm install --save-dev @angular/cli
     - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless
