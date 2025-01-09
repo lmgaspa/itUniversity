@@ -8,7 +8,7 @@ setup:
   stage: setup
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm ci  # Instala as dependências
+    - npm ci
   cache:
     key: "npm-cache-${CI_COMMIT_REF_SLUG}"
     paths:
