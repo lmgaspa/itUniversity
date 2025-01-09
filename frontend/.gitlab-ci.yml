@@ -17,9 +17,12 @@ setup:
 test:
   stage: test
   script:
-    - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - apt-get update && apt-get install -y firefox
-    - export FIREFOX_BIN="/usr/bin/firefox"
+    - apt-get update
+    - apt-get install -y software-properties-common
+    - add-apt-repository -y 'deb http://deb.debian.org/debian/ stable main contrib non-free'
+    - apt-get update
+    - apt-get install -y firefox-esr
+    - export FIREFOX_BIN="/usr/bin/firefox-esr"
     - echo "Executando testes com Firefox..."
     - ./node_modules/.bin/ng test --watch=false --browsers=FirefoxHeadless --code-coverage --progress=false --reporters=junit
   dependencies:
