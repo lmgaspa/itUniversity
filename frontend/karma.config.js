@@ -14,6 +14,12 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml'],  //
     port: 9876,
     browsers: ['ChromeHeadless'],
+    customLaunchers: {
+      ChromeHeadlessWindows: {
+        base: 'ChromeHeadless',
+        flags: ['--disable-gpu', '--disable-extensions', '--remote-debugging-port=9222', '--headless'],
+      }
+    },
     singleRun: true,
     restartOnFileChange: true,
   });
