@@ -1,3 +1,4 @@
+process.env.CHROME_BIN = process.env.CHROME_BIN || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 module.exports = function (config) {
   config.set({
     basePath: '',
