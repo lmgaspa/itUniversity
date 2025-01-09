@@ -11,7 +11,7 @@ module.exports = function (config) {
     client: {
       clearContext: false,  // Deixa os resultados visíveis no navegador
     },
-    reporters: ['progress', 'kjhtml'],  // Remove "coverage"
+    reporters: ['progress', 'kjhtml'],  // Sem "coverage"
     port: 9876,
     browsers: ['ChromeHeadless'],
     singleRun: true,
