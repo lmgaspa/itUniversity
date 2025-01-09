@@ -1,28 +1,32 @@
 image: node:20
 
 stages:
-  - setup
-  - test
+  - build-test
+  - sonar
 
-setup:
-  stage: setup
+build_test:
+  stage: build-test
   script:
-    - if [ -f "frontend/package.json" ]; then cd frontend; fi
+    - cd frontend
     - npm ci
-  cache:
-    key: "npm-cache-${CI_COMMIT_REF_SLUG}"
+    - npm run test -- --watch=false --code-coverage --reporters=junit
+  artifacts:
     paths:
-      - frontend/node_modules/
+      - frontend/coverage/
+      - frontend/test-reports/
+    expire_in: 1 week
 
-test:
-  stage: test
+sonar:
+  stage: sonar
   script:
-    - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm ci                 # Importante garantir que as dependências foram instaladas neste job
-    - apt-get update && apt-get install -y firefox-esr
-    - export FIREFOX_BIN="/usr/bin/firefox-esr"
-    - echo "Executando testes com Firefox..."
-    - ls -al ./node_modules/.bin/  # Debug: verifica se o ng está aqui
-    - ./node_modules/.bin/ng test --watch=false --browsers=FirefoxHeadless --code-coverage --progress=false --reporters=junit
+    - cd frontend
+    - ls coverage/
+    - npx sonar-scanner \
+        -Dsonar.projectKey="SEU_PROJETO" \
+        -Dsonar.projectName="SEU_PROJETO" \
+        -Dsonar.javascript.lcov.reportPaths="coverage/lcov.info" \
+        -Dsonar.testExecutionReportPaths="test-reports/junit-report.xml" \
+        -Dsonar.host.url="https://sonarcloud.io" \
+        -Dsonar.login="$SONAR_TOKEN"
   dependencies:
-    - setup
+    - build_test
