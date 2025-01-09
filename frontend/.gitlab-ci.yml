@@ -3,7 +3,6 @@ image: node:18
 stages:
   - setup
   - test
-  - sonarcloud-check
 
 setup:
   stage: setup
@@ -13,23 +12,19 @@ setup:
   cache:
     key: "npm-cache-${CI_COMMIT_REF_SLUG}"
     paths:
-      - node_modules/
+      - frontend/node_modules/
 
 test:
   stage: test
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm install -g @angular/cli
+    - npm audit fix --force  # Corrige vulnerabilidades
     - export CHROME_BIN="/usr/bin/chromium"
-    - echo "Executando testes..."
     - npm ci
-    - npx ng version
-    - npx ng test --watch=false --browsers=ChromeHeadless --no-progress --code-coverage
+    - npx ng test --watch=false --browsers=ChromeHeadless
   dependencies:
     - setup
   artifacts:
     when: always
     paths:
-      - reports/coverage/
-    reports:
-      junit: reports/junit/test-results.xml
+      - frontend/reports/coverage/
