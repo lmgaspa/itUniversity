@@ -20,7 +20,7 @@
             "outputPath": "dist/frontend",
             "baseHref": "/",
             "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -38,6 +38,9 @@
           },
           "configurations": {
             "production": {
+              "optimization": true,
+              "sourceMap": false,
+              "extractLicenses": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -54,20 +57,25 @@
             },
             "development": {
               "optimization": false,
+              "sourceMap": true,
               "extractLicenses": false,
-              "sourceMap": true
+              "outputHashing": "none"
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "port": 4200,
+            "browserTarget": "frontend:build:development"
+          },
           "configurations": {
             "production": {
-              "buildTarget": "university-front-end:build:production"
+              "browserTarget": "frontend:build:production"
             },
             "development": {
-              "buildTarget": "university-front-end:build:development"
+              "browserTarget": "frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "university-front-end:build"
+            "browserTarget": "frontend:build"
           }
         },
         "test": {
@@ -97,7 +105,7 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "codeCoverage": false
+            "codeCoverage": true
           }
         }
       }
