@@ -26,5 +26,3 @@ test:
     - setup
   artifacts:
     when: always
-    paths:
-    - logs/test-output.log
