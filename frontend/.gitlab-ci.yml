@@ -18,7 +18,7 @@ test:
   stage: test
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm audit fix --force  # Corrige vulnerabilidades
+    - npm audit fix --force 
     - export CHROME_BIN="/usr/bin/chromium"
     - echo "Executando testes..."
     - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless --code-coverage
