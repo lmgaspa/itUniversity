@@ -47,7 +47,7 @@ describe('LoginService', () => {
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual({ email: 'test@example.com', password: 'password123' });
 
-    req.flush(mockResponse); // Simula a resposta do servidor
+    req.flush(mockResponse);
 
     expect(toastrSpy.success).toHaveBeenCalledWith('Login successful!');
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/dashboard']);
@@ -106,5 +106,53 @@ describe('LoginService', () => {
 
     const req = httpMock.expectOne('https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/auth/register');
     req.flush('Internal Server Error', mockError);
+  });
+
+  it('deve buscar todos os usuários com sucesso', () => {
+    const mockUsers = [
+      { id: '1', name: 'User One', email: 'user1@example.com' },
+      { id: '2', name: 'User Two', email: 'user2@example.com' },
+    ];
+
+    service.getAllUsers().subscribe((users) => {
+      expect(users).toEqual(mockUsers);
+    });
+
+    const req = httpMock.expectOne('https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/user/find-all-users');
+    expect(req.request.method).toBe('GET');
+
+    req.flush(mockUsers);
+  });
+
+  it('deve buscar o ID de um usuário pelo nome', () => {
+    const mockUsers = [
+      { id: '1', name: 'User One' },
+      { id: '2', name: 'User Two' },
+    ];
+
+    service.getUserIdByName('User Two').subscribe((userId) => {
+      expect(userId).toBe('2');
+    });
+
+    const req = httpMock.expectOne('https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/user/find-all-users');
+    expect(req.request.method).toBe('GET');
+
+    req.flush(mockUsers);
+  });
+
+  it('deve retornar null se o usuário não for encontrado pelo nome', () => {
+    const mockUsers = [
+      { id: '1', name: 'User One' },
+      { id: '2', name: 'User Two' },
+    ];
+
+    service.getUserIdByName('Nonexistent User').subscribe((userId) => {
+      expect(userId).toBeNull();
+    });
+
+    const req = httpMock.expectOne('https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/user/find-all-users');
+    expect(req.request.method).toBe('GET');
+
+    req.flush(mockUsers);
   });
 });
