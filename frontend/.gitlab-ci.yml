@@ -9,6 +9,7 @@ setup:
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
     - npm ci
+    - npm install karma-junit-reporter --save-dev
   cache:
     key: "npm-cache-${CI_COMMIT_REF_SLUG}"
     paths:
@@ -18,12 +19,12 @@ test:
   stage: test
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm audit fix --force
     - export FIREFOX_BIN="/usr/bin/firefox"
     - echo "Executando testes com Firefox..."
     - ./node_modules/.bin/ng test --watch=false --browsers=FirefoxHeadless --code-coverage --progress=false --reporters=junit
-
   dependencies:
     - setup
   artifacts:
-    when: always
+    paths:
+      - frontend/test-reports/junit-report.xml
+    expire_in: 1 week

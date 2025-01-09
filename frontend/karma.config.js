@@ -6,7 +6,8 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-firefox-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage'), // Adicionando o plugin de coverage
+      require('karma-coverage'),
+      require('karma-junit-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
@@ -21,7 +22,13 @@ module.exports = function (config) {
         { type: 'text-summary' } // Gera um resumo no terminal
       ]
     },
-    reporters: ['progress', 'kjhtml', 'coverage'], // Adiciona coverage aos reports
+    junitReporter: {
+      outputDir: 'test-reports', // Diretório onde os relatórios JUnit serão salvos
+      outputFile: 'junit-report.xml', // Nome do arquivo de saída do relatório
+      useBrowserName: false, // Remove o nome do navegador do arquivo
+      suite: '', // Nome do conjunto de testes (pode ser vazio)
+    },
+    reporters: ['progress', 'kjhtml', 'coverage', 'junit'], // Adiciona coverage aos reports
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

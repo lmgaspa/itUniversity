@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<testsuite name="Firefox 134.0 (Windows 10)" package="" timestamp="2025-01-09T10:32:21" id="0" hostname="LuizMG" tests="20" errors="0" failures="0" time="0.527">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0"/>
+  </properties>
+  <testcase name="PrimaryInputComponent should create" time="0.067" classname="PrimaryInputComponent"/>
+  <testcase name="LoginService deve buscar todos os usuários com sucesso" time="0.025" classname="LoginService"/>
+  <testcase name="LoginService deve buscar userId se não existir e armazená-lo na sessão" time="0.014" classname="LoginService"/>
+  <testcase name="LoginService deve realizar signup com sucesso e navegar para o dashboard" time="0.014" classname="LoginService"/>
+  <testcase name="LoginService deve buscar o ID de um usuário pelo nome" time="0.009" classname="LoginService"/>
+  <testcase name="LoginService deve realizar login com sucesso e navegar para o dashboard" time="0.036" classname="LoginService"/>
+  <testcase name="LoginService deve lidar com erro no signup" time="0.038" classname="LoginService"/>
+  <testcase name="LoginService deve exibir erro ao falhar no login" time="0.009" classname="LoginService"/>
+  <testcase name="LoginService deve retornar null se o usuário não for encontrado pelo nome" time="0.021" classname="LoginService"/>
+  <testcase name="ModalComponent should create" time="0.067" classname="ModalComponent"/>
+  <testcase name="LoginService deve retornar null se o usuário não for encontrado pelo nome" time="0.012" classname="LoginService"/>
+  <testcase name="LoginService deve buscar o ID de um usuário pelo nome" time="0.007" classname="LoginService"/>
+  <testcase name="LoginService deve realizar signup com sucesso e navegar para o dashboard" time="0.021" classname="LoginService"/>
+  <testcase name="LoginService deve exibir erro ao falhar no login" time="0.01" classname="LoginService"/>
+  <testcase name="LoginService deve buscar todos os usuários com sucesso" time="0.01" classname="LoginService"/>
+  <testcase name="LoginService deve lidar com erro no signup" time="0.013" classname="LoginService"/>
+  <testcase name="LoginService deve realizar login com sucesso e navegar para o dashboard" time="0.008" classname="LoginService"/>
+  <testcase name="DefaultLoginLayoutComponent should create" time="0.046" classname="DefaultLoginLayoutComponent"/>
+  <testcase name="AppComponent should create the app" time="0.021" classname="AppComponent"/>
+  <testcase name="SidebarComponent should create" time="0.079" classname="SidebarComponent"/>
+  <system-out>
+    <![CDATA[Firefox 134.0 (Windows 10) LOG: 'All test files loaded.'
+,Firefox 134.0 (Windows 10) LOG: 'Fetched Users from API:', [Object{id: '1', name: 'User One', email: 'user1@example.com'}, Object{id: '2', name: 'User Two', email: 'user2@example.com'}]
+,Firefox 134.0 (Windows 10) WARN: 'User ID not found in the response. Fetching from the user list...'
+,Firefox 134.0 (Windows 10) LOG: 'Fetched Users from API:', [Object{id: '3', name: 'John Doe'}]
+,Firefox 134.0 (Windows 10) LOG: 'User ID fetched and saved:', '3'
+,Firefox 134.0 (Windows 10) LOG: 'User ID saved:', '456'
+,Firefox 134.0 (Windows 10) LOG: 'Fetched User ID:', '2'
+,Firefox 134.0 (Windows 10) LOG: 'User ID saved:', '123'
+,Firefox 134.0 (Windows 10) ERROR: 'Error during registration:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 500, statusText: 'Internal Server Error', url: 'https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/auth/register', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/auth/register: 500 Internal Server Error', error: 'Internal Server Error'}
+,Firefox 134.0 (Windows 10) ERROR: 'Error during login:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 401, statusText: 'Unauthorized', url: 'https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/auth/login', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/auth/login: 401 Unauthorized', error: 'Unauthorized'}
+,Firefox 134.0 (Windows 10) LOG: 'Fetched User ID:', null
+,Firefox 134.0 (Windows 10) LOG: 'Fetched User ID:', null
+,Firefox 134.0 (Windows 10) LOG: 'Fetched User ID:', '2'
+,Firefox 134.0 (Windows 10) LOG: 'User ID saved:', '456'
+,Firefox 134.0 (Windows 10) ERROR: 'Error during login:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 401, statusText: 'Unauthorized', url: 'https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/auth/login', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/auth/login: 401 Unauthorized', error: 'Unauthorized'}
+,Firefox 134.0 (Windows 10) LOG: 'Fetched Users from API:', [Object{id: '1', name: 'User One', email: 'user1@example.com'}, Object{id: '2', name: 'User Two', email: 'user2@example.com'}]
+,Firefox 134.0 (Windows 10) ERROR: 'Error during registration:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 500, statusText: 'Internal Server Error', url: 'https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/auth/register', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for https://universitysystem-7bcbdef4d122.herokuapp.com/api/v1/auth/register: 500 Internal Server Error', error: 'Internal Server Error'}
+,Firefox 134.0 (Windows 10) LOG: 'User ID saved:', '123'
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
