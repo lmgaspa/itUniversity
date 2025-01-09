@@ -1,4 +1,3 @@
-process.env.CHROME_BIN = process.env.CHROME_BIN || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -12,7 +11,7 @@ module.exports = function (config) {
     client: {
       clearContext: false,  // Deixa os resultados visíveis no navegador
     },
-    reporters: ['progress', 'kjhtml'],  // Sem "coverage"
+    reporters: ['progress', 'kjhtml'],  //
     port: 9876,
     browsers: ['ChromeHeadless'],
     singleRun: true,
