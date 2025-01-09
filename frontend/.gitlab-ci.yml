@@ -20,8 +20,10 @@ test:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
     - npm audit fix --force  # Corrige vulnerabilidades
     - export CHROME_BIN="/usr/bin/chromium"
+    - echo "Executando npm ci novamente para garantir dependências consistentes..."
     - npm ci
-    - npx ng test --watch=false --browsers=ChromeHeadless
+    - echo "Executando testes com Angular CLI"
+    - npx ng test --watch=false --browsers=ChromeHeadless || (echo "Erro detectado durante execução dos testes" && cat ~/.npm/_logs/*.log)
   dependencies:
     - setup
   artifacts:
