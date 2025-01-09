@@ -26,5 +26,4 @@ test:
     - setup
   artifacts:
     when: always
-    paths:
-      - frontend/reports/coverage/
+  
