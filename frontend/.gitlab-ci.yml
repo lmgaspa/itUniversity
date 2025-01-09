@@ -21,7 +21,7 @@ test:
     - npm audit fix --force 
     - export CHROME_BIN="/usr/bin/chromium"
     - echo "Executando testes..."
-    - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless --code-coverage
+    - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless
   dependencies:
     - setup
   artifacts:
