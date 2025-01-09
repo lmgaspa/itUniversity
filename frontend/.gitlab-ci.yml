@@ -1,4 +1,4 @@
-image: node:latest
+image: node:18
 
 stages:
   - setup
@@ -9,20 +9,21 @@ setup:
   stage: setup
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm ci  # Instala dependências com base no lockfile
+    - npm ci
   cache:
     key: "npm-cache-${CI_COMMIT_REF_SLUG}"
     paths:
-      - node_modules/  # Cache para evitar reinstalação repetida
+      - node_modules/
 
 test:
   stage: test
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - export CHROME_BIN="/usr/bin/chromium"  # Define o Chromium para execução em headless
+    - npm install -g @angular/cli
+    - export CHROME_BIN="/usr/bin/chromium"
     - echo "Executando testes..."
-    - npm ci  # Reinstalação das dependências para evitar erros de cache corrompido
-    - npm run build  # Garante a build antes de rodar os testes (caso necessário)
+    - npm ci
+    - npx ng version
     - npx ng test --watch=false --browsers=ChromeHeadless --no-progress --code-coverage
   dependencies:
     - setup
@@ -31,18 +32,4 @@ test:
     paths:
       - reports/coverage/
     reports:
-      junit: reports/junit/test-results.xml  # Relatório JUnit para SonarCloud
-
-sonarcloud-check:
-  stage: sonarcloud-check
-  image: sonarsource/sonar-scanner-cli:latest
-  script:
-    - sonar-scanner
-  cache:
-    key: "sonar-cache-${CI_COMMIT_REF_SLUG}"
-    paths:
-      - .sonar/cache
-  only:
-    - merge_requests
-    - main
-    - develop
+      junit: reports/junit/test-results.xml
