@@ -12,7 +12,7 @@ setup:
   cache:
     key: "npm-cache-${CI_COMMIT_REF_SLUG}"
     paths:
-      - frontend/node_modules/  # Corrige o caminho do cache
+      - frontend/node_modules/
 
 test:
   stage: test
