@@ -18,12 +18,10 @@ test:
   stage: test
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm audit fix --force  # Corrige vulnerabilidades
+    - npm install -g @angular/cli  # Instala Angular CLI globalmente
     - export CHROME_BIN="/usr/bin/chromium"
-    - echo "Executando npm ci novamente para garantir dependências consistentes..."
-    - npm ci
-    - echo "Executando testes com Angular CLI"
-    - npx ng test --watch=false --browsers=ChromeHeadless || (echo "Erro detectado durante execução dos testes" && cat ~/.npm/_logs/*.log)
+    - echo "Executando testes..."
+    - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless || (echo "Erro detectado durante execução dos testes" && cat ~/.npm/_logs/*.log)
   dependencies:
     - setup
   artifacts:
