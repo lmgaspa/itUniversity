@@ -8,16 +8,22 @@ stages:
 setup:
   stage: setup
   script:
-    - npm ci
+    - if [ -f "frontend/package.json" ]; then cd frontend; fi
+    - npm ci  # Instala dependências com base no lockfile
   cache:
     key: "npm-cache-${CI_COMMIT_REF_SLUG}"
     paths:
-      - node_modules/
+      - node_modules/  # Cache para evitar reinstalação repetida
 
 test:
   stage: test
   script:
-    - npm run test -- --watch=false --browsers=ChromeHeadless --coverage
+    - if [ -f "frontend/package.json" ]; then cd frontend; fi
+    - export CHROME_BIN="/usr/bin/chromium"  # Define o Chromium para execução em headless
+    - echo "Executando testes..."
+    - npm ci  # Reinstalação das dependências para evitar erros de cache corrompido
+    - npm run build  # Garante a build antes de rodar os testes (caso necessário)
+    - npx ng test --watch=false --browsers=ChromeHeadless --no-progress --code-coverage
   dependencies:
     - setup
   artifacts:
@@ -25,12 +31,7 @@ test:
     paths:
       - reports/coverage/
     reports:
-      junit: reports/junit/test-results.xml
-  cache:
-    key: "test-cache-${CI_COMMIT_REF_SLUG}"
-    paths:
-      - node_modules/
-      - reports/coverage/
+      junit: reports/junit/test-results.xml  # Relatório JUnit para SonarCloud
 
 sonarcloud-check:
   stage: sonarcloud-check
