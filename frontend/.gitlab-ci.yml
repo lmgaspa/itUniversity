@@ -21,7 +21,8 @@ test:
     - npm audit fix --force
     - export FIREFOX_BIN="/usr/bin/firefox"  # Variável de ambiente para o Firefox
     - echo "Executando testes com Firefox..."
-    - ./node_modules/.bin/ng test --watch=false --browsers=FirefoxHeadless
+    - ./node_modules/.bin/ng test --watch=false --browsers=FirefoxHeadless --code-coverage --progress=false --reporters=junit
+
   dependencies:
     - setup
   artifacts:
