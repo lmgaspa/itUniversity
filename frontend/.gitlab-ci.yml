@@ -18,10 +18,9 @@ test:
   stage: test
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm ci
+    - apt-get update && apt-get install -y firefox
     - export FIREFOX_BIN="/usr/bin/firefox"
     - echo "Executando testes com Firefox..."
-    - ls -al ./node_modules/.bin/  # Verificação se o binário existe
     - ./node_modules/.bin/ng test --watch=false --browsers=FirefoxHeadless --code-coverage --progress=false --reporters=junit
   dependencies:
     - setup
