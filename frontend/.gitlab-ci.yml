@@ -8,20 +8,20 @@ setup:
   stage: setup
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm ci
+    - npm ci  # Instala as dependências
   cache:
     key: "npm-cache-${CI_COMMIT_REF_SLUG}"
     paths:
-      - frontend/node_modules/
+      - frontend/node_modules/  # Corrige o caminho do cache
 
 test:
   stage: test
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm list @angular/cli || (echo "Angular CLI não encontrado localmente! Instalando..." && npm install --save-dev @angular/cli)
+    - npm audit fix --force  # Corrige vulnerabilidades
     - export CHROME_BIN="/usr/bin/chromium"
     - echo "Executando testes..."
-    - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless || (echo "Erro detectado durante execução dos testes" && cat ~/.npm/_logs/*.log)
+    - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless --code-coverage
   dependencies:
     - setup
   artifacts:
