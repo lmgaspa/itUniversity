@@ -18,7 +18,7 @@ test:
   stage: test
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm install -g @angular/cli  # Instala Angular CLI globalmente
+    - npm list @angular/cli || (echo "Angular CLI não encontrado localmente! Instalando..." && npm install --save-dev @angular/cli)
     - export CHROME_BIN="/usr/bin/chromium"
     - echo "Executando testes..."
     - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless || (echo "Erro detectado durante execução dos testes" && cat ~/.npm/_logs/*.log)
