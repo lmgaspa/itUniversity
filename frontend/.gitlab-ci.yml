@@ -8,7 +8,7 @@ stages:
 setup:
   stage: setup
   script:
-    - npm ci # Instala dependências com cache consistente
+    - npm ci
   cache:
     key: "npm-cache-${CI_COMMIT_REF_SLUG}"
     paths:
@@ -17,21 +17,20 @@ setup:
 test:
   stage: test
   script:
-    - npm ci # Reinstalação segura para garantir ambiente limpo
-    - npm run test -- --watch=false --browsers=ChromeHeadlessCI --coverage
+    - npm run test -- --watch=false --browsers=ChromeHeadless --coverage
   dependencies:
     - setup
   artifacts:
     when: always
     paths:
-      - coverage/
+      - reports/coverage/
     reports:
-      junit: coverage/junit.xml # Relatório para SonarCloud
+      junit: reports/junit/test-results.xml
   cache:
     key: "test-cache-${CI_COMMIT_REF_SLUG}"
     paths:
       - node_modules/
-      - coverage/
+      - reports/coverage/
 
 sonarcloud-check:
   stage: sonarcloud-check
