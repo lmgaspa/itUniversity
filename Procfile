@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/University-System-0.0.1-SNAPSHOT.jar
+web: cd backend && mvn clean install && java -jar target/*.jar
