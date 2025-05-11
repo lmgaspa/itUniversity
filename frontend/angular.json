@@ -11,6 +11,7 @@
             "outputPath": "dist/it-university",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "browser": "src/main.ts", 
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
