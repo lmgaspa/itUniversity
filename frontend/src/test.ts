@@ -1,3 +1,4 @@
+import 'zone.js';
 import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
 import {
@@ -5,14 +6,22 @@ import {
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
 
+declare const require: {
+  context(
+    path: string,
+    deep?: boolean,
+    filter?: RegExp
+  ): {
+    keys(): string[];
+    <T>(id: string): T;
+  };
+};
+
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );
 
-// Dynamically import all `.spec.ts` files:
-const testFiles = [
-  import('./app/app.component.spec'),
-];
-
-Promise.all(testFiles).then(() => console.log('All test files loaded.'));
+// Carrega automaticamente todos os arquivos de teste .spec.ts
+const context = require.context('./', true, /\.spec\.ts$/);
+context.keys().map(context);
