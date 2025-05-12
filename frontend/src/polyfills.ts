@@ -1,12 +1,4 @@
-// src/polyfills.ts
-
 /***************************************************************************************************
- * BROWSER POLYFILLS
+ * Zone JS é necessário para o Angular.
  */
-
-// Importa os polyfills do Angular (opcional, dependendo do seu navegador alvo)
-import 'zone.js';  // Necessário para o Angular
-
-/***************************************************************************************************
- * APPLICATION IMPORTS
- */
+import 'zone.js';
