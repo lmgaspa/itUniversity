@@ -1,4 +1,4 @@
-image: node:18
+image: node:20
 
 stages:
   - setup
@@ -8,7 +8,7 @@ setup:
   stage: setup
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm ci  # Instala as dependências
+    - npm ci
   cache:
     key: "npm-cache-${CI_COMMIT_REF_SLUG}"
     paths:
@@ -18,11 +18,11 @@ test:
   stage: test
   script:
     - if [ -f "frontend/package.json" ]; then cd frontend; fi
-    - npm audit fix --force 
-    - export CHROME_BIN="/usr/bin/chromium"
-    - echo "Executando testes..."
-    - ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless
+    - npm ci                 # Importante garantir que as dependências foram instaladas neste job
+    - apt-get update && apt-get install -y firefox-esr
+    - export FIREFOX_BIN="/usr/bin/firefox-esr"
+    - echo "Executando testes com Firefox..."
+    - ls -al ./node_modules/.bin/  # Debug: verifica se o ng está aqui
+    - ./node_modules/.bin/ng test --watch=false --browsers=FirefoxHeadless --code-coverage --progress=false --reporters=junit
   dependencies:
     - setup
-  artifacts:
-    when: always
