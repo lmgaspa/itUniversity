@@ -1,4 +1,4 @@
 /***************************************************************************************************
  * Zone JS é necessário para o Angular.
  */
-import 'zone.js';
+import '@angular/localize/init';
