@@ -3,9 +3,9 @@ spring:
     name: universitysystem
 
   datasource:
-    url: jdbc:postgresql://cc0gj7hsrh0ht8.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dc4rssldoktl1m
+    url: postgres://u8svaenl54eb9p:pbe77fdafcfe14b49ee9d50e919
     username: uc68c5g21jl5gt
-    password: {DB_PASSWORD}
+    password: admin123
     driver-class-name: org.postgresql.Driver
 
   jpa:
