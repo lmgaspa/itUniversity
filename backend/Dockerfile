@@ -5,7 +5,8 @@ FROM maven:3.9.4-eclipse-temurin-21 AS build
 WORKDIR /app
 
 # Copia os arquivos do projeto para o contêiner
-COPY . .
+COPY pom.xml .
+COPY src ./src
 
 # Compila o projeto, ignorando os testes
 RUN mvn clean install -DskipTests
@@ -17,7 +18,7 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 # Copia o JAR gerado na fase de build
-COPY --from=build /app/target/university-system-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 
 # Exponha a porta 8081
 EXPOSE 8081
