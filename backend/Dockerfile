@@ -1,26 +1,26 @@
-# Use a imagem do JDK 21 para construção
-FROM eclipse-temurin:21-jdk AS build
+# Etapa 1: Build
+FROM maven:3.9.4-eclipse-temurin-21 AS build
 
-# Define o diretório de trabalho dentro do contêiner
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Copia o código fonte para o contêiner
+# Copia os arquivos do projeto para o contêiner
 COPY . .
 
-# Compila o projeto
-RUN ./mvnw clean install -DskipTests
+# Compila o projeto, ignorando os testes
+RUN mvn clean install -DskipTests
 
-# Use uma imagem menor para o runtime
+# Etapa 2: Runtime
 FROM eclipse-temurin:21-jre
 
-# Define o diretório de trabalho no contêiner final
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Copia o JAR gerado para o contêiner final
+# Copia o JAR gerado na fase de build
 COPY --from=build /app/target/university-system-0.0.1-SNAPSHOT.jar app.jar
 
-# Define a porta que será exposta
+# Exponha a porta 8080
 EXPOSE 8080
 
-# Comando para iniciar a aplicação
+# Define o comando de entrada para executar o aplicativo
 ENTRYPOINT ["java", "-jar", "app.jar"]
