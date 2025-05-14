@@ -20,7 +20,7 @@ WORKDIR /app
 COPY --from=build /app/target/university-system-0.0.1-SNAPSHOT.jar app.jar
 
 # Exponha a porta 8080
-EXPOSE 8080
+EXPOSE 8081
 
 # Define o comando de entrada para executar o aplicativo
 ENTRYPOINT ["java", "-jar", "app.jar"]
