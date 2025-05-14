@@ -3,8 +3,8 @@ spring:
     name: universitysystem
 
   datasource:
-    url: postgres://u8svaenl54eb9p:pbe77fdafcfe14b49ee9d50e919
-    username: uc68c5g21jl5gt
+    url: jdbc:postgresql://localhost:5432/university
+    username: admin
     password: admin123
     driver-class-name: org.postgresql.Driver
 
