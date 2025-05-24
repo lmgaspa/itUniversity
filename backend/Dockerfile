@@ -1,5 +1,5 @@
 # Use a imagem oficial do OpenJDK 21
-FROM eclipse-temurin:17-jdk-jammy
+FROM eclipse-temurin:21-jdk-jammy
 
 # Define diretório de trabalho dentro do container
 WORKDIR /app
