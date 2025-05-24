@@ -13,12 +13,9 @@ public class CorsConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
-
-        // Incluindo todos os domínios necessários
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:4200",
                 "https://it-university.vercel.app",
-                "https://ituniversity-0ba72c28fb77.herokuapp.com",
                 "http://localhost"
         ));
 

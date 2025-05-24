@@ -24,7 +24,7 @@ INSERT INTO public.courses (id, name, description, created_at, updated_at, image
 
 CREATE TABLE public.roles (
     id INT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    name VARCHAR(50) NOT NULL UNIQUE -- <- Corrigido aqui
 );
 
 INSERT INTO public.roles (id, name) VALUES

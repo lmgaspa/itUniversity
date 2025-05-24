@@ -9,6 +9,7 @@ import com.luizgasparetto.universitysystem.dto.ResponseDTO;
 import com.luizgasparetto.universitysystem.dto.UpdateUserDTO;
 import lombok.RequiredArgsConstructor;
 import com.luizgasparetto.universitysystem.infra.security.TokenService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +28,19 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO body) {
-        User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
+        Optional<User> optionalUser = this.repository.findByEmail(body.email());
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+        }
+
+        User user = optionalUser.get();
         if (passwordEncoder.matches(body.password(), user.getPassword())) {
             String token = this.tokenService.generateToken(user);
             return ResponseEntity.ok(new ResponseDTO(user.getName(), token));
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
+
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterRequestDTO body) {
