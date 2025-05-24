@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RootController {
 
     @GetMapping("/")
-    public String home() {
-        return "API UniversitySystem is running successfully!";
+    public String root() {
+        return "API do UniversitySystem está no ar!";
     }
 }

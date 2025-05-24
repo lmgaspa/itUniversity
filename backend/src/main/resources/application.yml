@@ -3,9 +3,9 @@ spring:
     name: universitysystem
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -18,8 +18,18 @@ spring:
 
 server:
   port: 8081
+  address: 0.0.0.0
 
 api:
   security:
     token:
       secret: ${JWT_SECRET:my-secret-key}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
