@@ -1,35 +1,17 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15.3
+  postgres-db:
+    image: postgres:15
     container_name: university-postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: university_system
-    volumes:
-      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: university-backend
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://university-postgres:5432/university_system
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: admin123
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
-      SPRING_JPA_SHOW_SQL: "true"
-      SERVER_PORT: 8081
-    ports:
-      - "8081:8081"
-    depends_on:
-      - postgres
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  pgdata:
+  postgres_data:

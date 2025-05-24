@@ -3,9 +3,9 @@ spring:
     name: universitysystem
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/university_system
-    username: postgres
-    password: admin123
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -13,14 +13,13 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+
+server:
+  port: 8081
 
 api:
   security:
     token:
-      secret: my-secret-key
-
-server:
-  port: 8081
+      secret: ${JWT_SECRET:my-secret-key}
