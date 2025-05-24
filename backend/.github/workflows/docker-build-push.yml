@@ -40,4 +40,4 @@ jobs:
             docker pull luizmgba/luizmgba:latest
             docker stop luizmgba-app || true
             docker rm luizmgba-app || true
-            docker run -d -p 8080:8080 --name luizmgba-app luizmgba/luizmgba:latest
+            docker run -d -p 8081:8081 --name luizmgba-app luizmgba/luizmgba:latest

@@ -1,13 +1,14 @@
-# Etapa de build
-FROM maven:3.8.5-openjdk-17 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
+# Use a imagem oficial do OpenJDK 21
+FROM eclipse-temurin:17-jdk-jammy
 
-# Etapa de execução
-FROM openjdk:21-jdk-slim
+# Define diretório de trabalho dentro do container
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
+
+# Copia o jar da aplicação para o container
+COPY target/*.jar app.jar
+
+# Expõe a porta que a aplicação usa (exemplo: 8080)
+EXPOSE 8081
+
+# Comando para rodar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
