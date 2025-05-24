@@ -10,7 +10,7 @@ import { throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class LoginService {
-  private readonly apiUrl: string = 'https://ituniversity-0ba72c28fb77.herokuapp.com/api/v1/auth';
+  private readonly apiUrl: string = 'http://136.248.107.250:8081/api/v1/auth';
 
   constructor(
     private httpClient: HttpClient,
@@ -59,7 +59,7 @@ export class LoginService {
   }
 
   getAllUsers() {
-    return this.httpClient.get<any[]>('https://ituniversity-0ba72c28fb77.herokuapp.com/api/v1/user/find-all-users').pipe(
+    return this.httpClient.get<any[]>('http://136.248.107.250:8081/api/v1/user/find-all-users').pipe(
       tap((users) => console.log('Fetched Users from API:', users)) // Log dos usuários recebidos
     );
   }
@@ -67,7 +67,7 @@ export class LoginService {
 
   // Método público: Busca User ID pelo nome
   getUserIdByName(name: string) {
-    return this.httpClient.get<any[]>('https://ituniversity-0ba72c28fb77.herokuapp.com/api/v1/user/find-all-users').pipe(
+    return this.httpClient.get<any[]>('http://136.248.107.250:8081/api/v1/user/find-all-users').pipe(
       map((users) => {
         const user = users.find((u) => u.name === name);
         return user?.id || null; // Retorna somente o ID ou null
