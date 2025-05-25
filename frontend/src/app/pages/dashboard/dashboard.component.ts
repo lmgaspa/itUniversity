@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
 
   private fetchCourses(): void {
     this.http
-      .get<any[]>('https://168.75.95.105:8081/api/v1/courses/find-all-courses')
+      .get<any[]>('https://168.75.95.105/api/v1/courses/find-all-courses')
       .subscribe({
         next: (data) => {
           this.courses = data;
@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
 
   private fetchEnrolledCourses(): void {
     this.http
-      .get<any[]>(`https://168.75.95.105:8081/api/v1/enrollments/enroll/user/${this.userId}`)
+      .get<any[]>(`https://168.75.95.105/api/v1/enrollments/enroll/user/${this.userId}`)
       .subscribe({
         next: (data) => {
           this.enrolledCourses = data;
@@ -96,7 +96,7 @@ export class DashboardComponent implements OnInit {
     console.log('Payload enviado:', payload);
 
     this.http
-      .post('https://168.75.95.105:8081/api/v1/enrollments/enroll', payload, {
+      .post('https://168.75.95.105/api/v1/enrollments/enroll', payload, {
         headers: { 'Content-Type': 'application/json' },
       })
       .subscribe({
