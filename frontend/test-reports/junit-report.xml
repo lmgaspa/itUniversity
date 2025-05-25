@@ -29,18 +29,18 @@
 ,Firefox 138.0 (Windows 10) LOG: 'Fetched Users from API:', [Object{id: '3', name: 'John Doe'}]
 ,Firefox 138.0 (Windows 10) LOG: 'User ID fetched and saved:', '3'
 ,Firefox 138.0 (Windows 10) LOG: 'Fetched User ID:', null
-,Firefox 138.0 (Windows 10) ERROR: 'Error during registration:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 500, statusText: 'Internal Server Error', url: 'https://168.75.95.105/api/v1/auth/register', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for https://168.75.95.105/api/v1/auth/register: 500 Internal Server Error', error: 'Internal Server Error'}
+,Firefox 138.0 (Windows 10) ERROR: 'Error during registration:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 500, statusText: 'Internal Server Error', url: 'http://168.75.95.105:8081/api/v1/auth/register', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for http://168.75.95.105:8081/api/v1/auth/register: 500 Internal Server Error', error: 'Internal Server Error'}
 ,Firefox 138.0 (Windows 10) LOG: 'User ID saved:', '123'
-,Firefox 138.0 (Windows 10) ERROR: 'Error during login:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 401, statusText: 'Unauthorized', url: 'this.http.post('https://168.75.95.105/api/v1/auth/login', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for https://168.75.95.105/api/v1/auth/login: 401 Unauthorized', error: 'Unauthorized'}
+,Firefox 138.0 (Windows 10) ERROR: 'Error during login:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 401, statusText: 'Unauthorized', url: 'this.http.post('http://168.75.95.105:8081/api/v1/auth/login', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for http://168.75.95.105:8081/api/v1/auth/login: 401 Unauthorized', error: 'Unauthorized'}
 ,Firefox 138.0 (Windows 10) LOG: 'Fetched Users from API:', [Object{id: '1', name: 'User One', email: 'user1@example.com'}, Object{id: '2', name: 'User Two', email: 'user2@example.com'}]
 ,Firefox 138.0 (Windows 10) LOG: 'Fetched User ID:', '2'
 ,Firefox 138.0 (Windows 10) LOG: 'User ID saved:', '456'
 ,Firefox 138.0 (Windows 10) LOG: 'Fetched User ID:', '2'
 ,Firefox 138.0 (Windows 10) LOG: 'Fetched Users from API:', [Object{id: '1', name: 'User One', email: 'user1@example.com'}, Object{id: '2', name: 'User Two', email: 'user2@example.com'}]
-,Firefox 138.0 (Windows 10) ERROR: 'Error during registration:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 500, statusText: 'Internal Server Error', url: 'https://168.75.95.105/api/v1/auth/register', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for https://168.75.95.105/api/v1/auth/register: 500 Internal Server Error', error: 'Internal Server Error'}
+,Firefox 138.0 (Windows 10) ERROR: 'Error during registration:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 500, statusText: 'Internal Server Error', url: 'http://168.75.95.105:8081/api/v1/auth/register', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for http://168.75.95.105:8081/api/v1/auth/register: 500 Internal Server Error', error: 'Internal Server Error'}
 ,Firefox 138.0 (Windows 10) LOG: 'User ID saved:', '123'
 ,Firefox 138.0 (Windows 10) LOG: 'Fetched User ID:', null
-,Firefox 138.0 (Windows 10) ERROR: 'Error during login:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 401, statusText: 'Unauthorized', url: 'https://168.75.95.105/api/v1/auth/login', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for https://168.75.95.105/api/v1/auth/login: 401 Unauthorized', error: 'Unauthorized'}
+,Firefox 138.0 (Windows 10) ERROR: 'Error during login:', HttpErrorResponse{headers: HttpHeaders{normalizedNames: Map{}, lazyUpdate: null, headers: Map{}}, status: 401, statusText: 'Unauthorized', url: 'http://168.75.95.105:8081/api/v1/auth/login', ok: false, name: 'HttpErrorResponse', message: 'Http failure response for http://168.75.95.105:8081/api/v1/auth/login: 401 Unauthorized', error: 'Unauthorized'}
 ,Firefox 138.0 (Windows 10) LOG: 'User ID saved:', '456'
 
 ]]>
