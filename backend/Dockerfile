@@ -1,14 +1,4 @@
-# Use a imagem oficial do OpenJDK 21
 FROM eclipse-temurin:21-jdk-jammy
-
-# Define diretório de trabalho dentro do container
 WORKDIR /app
-
-# Copia o jar da aplicação para o container
-COPY target/*.jar app.jar
-
-# Expõe a porta que a aplicação usa (exemplo: 8080)
-EXPOSE 8081
-
-# Comando para rodar a aplicação
+COPY target/University-System-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
